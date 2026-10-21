@@ -38,11 +38,16 @@ public class TransactionQueries {
     public record Page(List<TxnView> transactions, String nextCursor, int total) {}
 
     private static final String SELECT = """
-            select t.id, t.date, coalesce(nullif(t.merchant_name, ''), t.raw_name, '') as merchant, t.raw_name,
+            select t.id, t.seq, t.date, coalesce(nullif(t.merchant_name, ''), t.raw_name, '') as merchant, t.raw_name,
                    t.amount, t.account_id, a.name as account_name, a.display_color, t.category, t.subcategory,
                    t.category_source, t.confidence, t.reviewed, t.pending
             from transaction t join account a on a.id = t.account_id
             """;
+
+    /** A row plus its position, for building the next cursor. */
+    record Positioned(TxnView view, long seq) {}
+
+    static final RowMapper<Positioned> POSITIONED = (rs, i) -> new Positioned(TransactionQueries.MAPPER.mapRow(rs, i), rs.getLong("seq"));
 
     static final RowMapper<TxnView> MAPPER = (rs, i) -> {
         String category = rs.getString("category");
@@ -95,32 +100,32 @@ public class TransactionQueries {
         StringBuilder sql = new StringBuilder(SELECT).append(where);
         Cursor c = Cursor.decode(f.cursor());
         if (c != null) {
-            sql.append(" and (t.date < :cDate or (t.date = :cDate and t.id > :cId))");
-            p.addValue("cDate", c.date()).addValue("cId", c.id());
+            sql.append(" and (t.date < :cDate or (t.date = :cDate and t.seq > :cSeq))");
+            p.addValue("cDate", c.date()).addValue("cSeq", c.seq());
         }
         int limit = Math.max(1, Math.min(f.limit(), MAX_LIMIT));
-        sql.append(" order by t.date desc, t.id limit :limit");
+        sql.append(" order by t.date desc, t.seq limit :limit");
         p.addValue("limit", limit + 1);
 
-        List<TxnView> rows = jdbc.query(sql.toString(), p, MAPPER);
+        List<Positioned> rows = jdbc.query(sql.toString(), p, POSITIONED);
         String next = null;
         if (rows.size() > limit) {
             rows = rows.subList(0, limit);
-            TxnView last = rows.get(rows.size() - 1);
-            next = new Cursor(last.date(), last.id()).encode();
+            Positioned last = rows.get(rows.size() - 1);
+            next = new Cursor(last.view().date(), last.seq()).encode();
         }
-        return new Page(rows, next, total == null ? 0 : total);
+        return new Page(rows.stream().map(Positioned::view).toList(), next, total == null ? 0 : total);
     }
 
     public Optional<TxnView> find(UUID id) {
         return jdbc.query(SELECT + " where t.id = :id", new MapSqlParameterSource("id", id), MAPPER).stream().findFirst();
     }
 
-    /** Opaque keyset cursor: the (date, id) of the last row returned. */
-    record Cursor(LocalDate date, UUID id) {
+    /** Opaque keyset cursor: the (date, seq) of the last row returned. */
+    record Cursor(LocalDate date, long seq) {
         String encode() {
             return Base64.getUrlEncoder().withoutPadding()
-                    .encodeToString((date + "|" + id).getBytes(StandardCharsets.UTF_8));
+                    .encodeToString((date + "|" + seq).getBytes(StandardCharsets.UTF_8));
         }
 
         static Cursor decode(String s) {
@@ -129,7 +134,7 @@ public class TransactionQueries {
             }
             try {
                 String[] parts = new String(Base64.getUrlDecoder().decode(s), StandardCharsets.UTF_8).split("\\|");
-                return new Cursor(LocalDate.parse(parts[0]), UUID.fromString(parts[1]));
+                return new Cursor(LocalDate.parse(parts[0]), Long.parseLong(parts[1]));
             } catch (RuntimeException e) {
                 throw new IllegalArgumentException("Invalid cursor");
             }

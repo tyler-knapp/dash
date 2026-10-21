@@ -166,6 +166,15 @@ class LedgerApiTest extends PostgresTestBase {
     }
 
     @Test
+    void rowsWithinADayKeepFileOrderLikeThePrototype() {
+        List<String> fileOrder = fileTxns.stream().filter(t -> "2026-10-20".equals(t.path("date").asText()))
+                .map(t -> t.path("merchant").asText()).toList();
+        List<Object> apiOrder = rows(get("from=2026-10&to=2026-10&includeTransfers=true")).stream()
+                .filter(r -> "2026-10-20".equals(r.get("date"))).map(r -> r.get("merchant")).toList();
+        assertThat(apiOrder).containsExactlyElementsOf(fileOrder);
+    }
+
+    @Test
     void recategorizePersistsAsUserReviewed() {
         Map<String, Object> target = rows(get("from=2026-01&to=2026-10&needsReview=true")).get(0);
         int reviewBefore = (int) get("from=2026-01&to=2026-10&needsReview=true").get("total");
