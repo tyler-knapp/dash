@@ -18,8 +18,12 @@ Personal finance app for one user (Tyler). Read `SPEC.md` before any work; it is
 - Keep commits small and scoped to one change.
 
 ## Commands
-Fill these in during Phase 0:
-- Start everything: `docker compose up`
-- Backend tests: 
-- Frontend dev server: 
-- Frontend tests: 
+- Start everything: `docker compose up --build` (or `make up`), then http://localhost:8080. Backend direct: http://localhost:8081/api/health
+- Dev sample data (`reference/sample-data`) loads by default in compose; start empty with `SAMPLE_DATA=false`. It's deleted automatically on the first real Plaid link.
+- Smoke-check a running stack: `make smoke`
+- All tests (what CI runs): `make test` (needs Docker for Testcontainers)
+- Backend tests: `cd backend && ./gradlew test` (Plaid is faked; real-Sandbox test is skipped)
+- Real Plaid Sandbox test: `cd backend && PLAID_SANDBOX_IT=true PLAID_ENV=sandbox PLAID_CLIENT_ID=… PLAID_SECRET=… ./gradlew test --tests '*PlaidSandboxIT'`
+- Backend dev (db in docker, app on :8081): `make dev-backend`
+- Frontend dev server: `cd frontend && npm run dev` (proxies /api to :8081)
+- Frontend tests: `cd frontend && npm test` (also `npm run lint`, `npm run typecheck`)
