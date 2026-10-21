@@ -12,19 +12,18 @@ const STATUS: Record<ItemView['status'], { cls: string; label: string }> = {
 }
 
 /** Linked institutions: status, last sync, Sync now, Link new account, Reconnect (update mode). */
-export function AccountsView() {
+export function AccountsView({ onChanged }: { onChanged?: () => void } = {}) {
   const [load, setLoad] = useState<Load>({ kind: 'loading' })
   const [busy, setBusy] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
 
-  const refresh = useCallback(
-    () =>
-      fetchItems().then(
-        (items) => setLoad({ kind: 'ok', items }),
-        (e: unknown) => setLoad({ kind: 'error', message: e instanceof Error ? e.message : String(e) }),
-      ),
-    [],
-  )
+  const refresh = useCallback(() => {
+    onChanged?.()
+    return fetchItems().then(
+      (items) => setLoad({ kind: 'ok', items }),
+      (e: unknown) => setLoad({ kind: 'error', message: e instanceof Error ? e.message : String(e) }),
+    )
+  }, [onChanged])
 
   useEffect(() => {
     let live = true

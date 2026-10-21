@@ -9,3 +9,10 @@
 .item-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 14px;font-size:.8rem;color:var(--muted);border-bottom:1px solid var(--line)}
 .arow .acct{font-size:inherit;color:var(--ink);align-items:flex-start}
 .arow .acct .dot{margin-top:6px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:8px;font-size:.88rem;z-index:20;max-width:calc(100% - 32px)}
+.catcell .tags{font-size:.68rem}  /* keep the tag line as tall as the prototype's bare tag */
+.catcell .tags .tag{font-size:inherit}
+.tag.pending{color:var(--muted);margin-left:6px}
+.empty .btn{margin-left:8px}
+nav{overflow-x:auto;scrollbar-width:none}
+nav button{white-space:nowrap}
