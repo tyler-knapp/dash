@@ -19,6 +19,7 @@ Personal finance app for one user (Tyler). Read `SPEC.md` before any work; it is
 
 ## Commands
 - Start everything: `docker compose up --build` (or `make up`), then http://localhost:8080. Backend direct: http://localhost:8081/api/health
+- Dev sample data (`reference/sample-data`) loads by default in compose; start empty with `SAMPLE_DATA=false`. It's deleted automatically on the first real Plaid link.
 - Smoke-check a running stack: `make smoke`
 - All tests (what CI runs): `make test` (needs Docker for Testcontainers)
 - Backend tests: `cd backend && ./gradlew test` (Plaid is faked; real-Sandbox test is skipped)

@@ -71,3 +71,43 @@ One entry per phase (SPEC §10): what was built, what was verified, and how.
 
 **Open items for later phases**
 - Vanguard's money market may come through as an `investment` account, which Plaid's Transactions product doesn't cover. If so, it becomes balance-only rather than a ledger account, or needs `/investments/transactions/get`. Check during Phase 6 linking.
+
+## Phase 2 — Ledger UI ✅ (2026-10-21)
+
+Built on the kit's sample data. Phase 1's live Plaid Sandbox check is still open (see above): this environment still has no Plaid keys and can't reach `sandbox.plaid.com`. Tyler chose to go ahead with Phase 2 anyway, since the Ledger reads from the database, not from Plaid.
+
+**Built**
+- **Sample data for dev:** `SAMPLE_DATA=true` (the default in docker compose) loads `reference/sample-data` on startup: 12 prototype accounts with their colors, 518 transactions, 2 budget versions, balances. Rows are tagged `is_sample` (migration V4). It never loads while a real account exists, and it is deleted automatically when the first real institution is linked. The files are read in place (mounted read-only into the container), not copied.
+- `GET /api/transactions?from&to&account&category&q&needsReview&includeTransfers&cursor&limit`, with the prototype's filter rules:
+  - transfers hidden unless "Show transfers" is on or the Transfer category is picked;
+  - needs review = uncategorized, or confidence < 0.7 and not reviewed;
+  - search is case-insensitive over merchant and raw name, with `%` and `_` taken literally;
+  - hidden accounts are left out.
+- Paging is cursor-based (keyset on date, then arrival order), 150 rows by default, max 500, and returns `total` for the "Show N more of M remaining" button. Rows within a day keep the order they arrived, which matches the prototype (migration V5 adds `transaction.seq`).
+- `PATCH /api/transactions/{id} {category, subcategory}`: validated against the taxonomy (400 if not in it, 404 if the transaction doesn't exist); sets `category_source = user`, `reviewed = true`.
+- `GET /api/categories` (taxonomy in order). `GET /api/accounts` (every account with latest balance, institution and sample flag; Phase 5 extends it).
+- **Frontend:**
+  - Prototype layout: eyebrow, period title, span with count ("Oct 1 – Oct 21 (today) · 48 transactions"), Sample data badge, period bar (Month/Quarter/YTD/Year/Custom, arrows that stop at the current period, custom from/to), tabs Budget / Ledger / Net worth / Accounts. Budget and Net worth are placeholders until Phases 3 and 5.
+  - Period logic ported function by function from the prototype, with "today" in New York time.
+  - Ledger tab: search (debounced), account and category filters, Show transfers, Needs review only; rows grouped by day with merchant, account dot, category dropdown, Auto / Review · auto NN% / Reviewed tag (plus "Review · uncategorized" and "Pending" for real Plaid data), signed and colored amounts, gray transfers; "Show more" paging.
+  - Recategorizing updates the row at once and saves. If the save fails it reverts and shows the prototype's toast. A row that no longer fits the filters (e.g. fixed while "Needs review only" is on) drops out, as in the prototype.
+  - Loading, empty and error states use the prototype's wording, plus a Retry button.
+  - Last tab and period are remembered in `localStorage` (prototype key `pf-view`). Bad or future saved values fall back to defaults.
+  - A health banner appears only when the server or database is down.
+
+**Verified**
+- Backend `./gradlew test`: **52 passed, 1 skipped** (the live Plaid test). Ledger tests check API results against counts computed independently from the sample JSON files with the prototype's rules:
+  - month view total, transfers toggle and Transfer category, needs review (42 low-confidence unedited rows minus transfers), search, account and category filters;
+  - paging walks every row exactly once, newest first, in ⌈total/150⌉ pages;
+  - a day's rows keep file order;
+  - recategorize persists as user and reviewed and drops out of needs-review; bad pairs and unknown ids are rejected;
+  - hidden accounts excluded; month validation; reversed range accepted;
+  - sample data loads once, refuses to load next to real accounts, clears completely, and is removed when a real institution is linked.
+- Frontend: lint, typecheck, **27/27 tests** (period logic incl. New York "today", the ledger behaviors above, shell: title/span/badge, stepping, custom range, remembering tab and period across reloads, server-down banner), production build. `make test` passes.
+- **Done-when checks, in headless Chromium against `docker compose up` with sample data:**
+  - Recategorized the first October row (Polaris Grill, Food › Restaurants → Side Hustles › YouTube Gear): PATCH 200, then **after a page reload the row still showed the new category with the Reviewed tag**, and the Ledger tab was still selected.
+  - Ledger next to the prototype (fed the same sample data) at **980px and 400px**: same header, span and count (48), same filters, day headers, row layout, tags, amounts and row order. The only difference is the row recategorized on purpose. No horizontal scroll at either width. Side-by-side images: `docs/screenshots/phase2-ledger-vs-prototype-desktop.png` and `…-400px.png` (app on the left).
+
+**Notes**
+- The prototype shows its Budget list and custom-range selects at all times because inline `display` styles override its `hidden` attributes. That's a prototype bug (its tab code clearly means to hide them), so the app doesn't copy it.
+- The summary strip (Income / Spent / Budgeted / Net) comes with `/api/summary` in Phase 3.
