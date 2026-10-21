@@ -3,7 +3,9 @@ package com.tylerknapp.finance.config;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import java.time.Duration;
 import java.time.ZoneId;
+import java.util.List;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
@@ -18,13 +20,22 @@ public record AppProperties(
         String tokenEncKey,
         String anthropicApiKey,
         String passwordHash,
-        @NotNull ZoneId timeZone) {
+        @NotNull ZoneId timeZone,
+        @Valid @NotNull Sync sync) {
+
+    /**
+     * @param schedulerEnabled run the periodic sync of all Items
+     * @param cron             when (in {@code timeZone}); default every 6 hours
+     * @param followUpDelays   after linking, re-sync at these delays until Plaid finishes pulling history
+     */
+    public record Sync(boolean schedulerEnabled, @NotNull String cron, @NotNull List<Duration> followUpDelays) {}
 
     public record Plaid(
             String clientId,
             String secret,
             @NotNull @Pattern(regexp = "sandbox|production", message = "PLAID_ENV must be sandbox or production")
-            String env) {
+            String env,
+            String redirectUri) {
 
         public boolean configured() {
             return isSet(clientId) && isSet(secret);
@@ -32,7 +43,8 @@ public record AppProperties(
 
         @Override
         public String toString() {
-            return "Plaid[env=" + env + ", clientId=" + mark(clientId) + ", secret=" + mark(secret) + "]";
+            return "Plaid[env=" + env + ", clientId=" + mark(clientId) + ", secret=" + mark(secret)
+                    + ", redirectUri=" + redirectUri + "]";
         }
     }
 
@@ -52,7 +64,7 @@ public record AppProperties(
     public String toString() {
         return "AppProperties[" + plaid + ", tokenEncKey=" + mark(tokenEncKey)
                 + ", anthropicApiKey=" + mark(anthropicApiKey) + ", passwordHash=" + mark(passwordHash)
-                + ", timeZone=" + timeZone + "]";
+                + ", timeZone=" + timeZone + ", " + sync + "]";
     }
 
     static boolean isSet(String s) {

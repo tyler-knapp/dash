@@ -2,6 +2,7 @@ package com.tylerknapp.finance.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.Duration;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
@@ -17,7 +18,8 @@ class AppPropertiesTest {
     private final ApplicationContextRunner runner = new ApplicationContextRunner()
             .withConfiguration(AutoConfigurations.of(ValidationAutoConfiguration.class))
             .withUserConfiguration(Cfg.class)
-            .withPropertyValues("app.time-zone=America/New_York");
+            .withPropertyValues("app.time-zone=America/New_York", "app.sync.scheduler-enabled=false",
+                    "app.sync.cron=0 0 */6 * * *", "app.sync.follow-up-delays=15s, 1m");
 
     @Test
     void bindsAndNeverPrintsSecrets() {
@@ -32,6 +34,7 @@ class AppPropertiesTest {
                     assertThat(p.plaid().configured()).isTrue();
                     assertThat(p.anthropicConfigured()).isTrue();
                     assertThat(p.authEnabled()).isFalse();
+                    assertThat(p.sync().followUpDelays()).containsExactly(Duration.ofSeconds(15), Duration.ofMinutes(1));
                     assertThat(p.toString())
                             .doesNotContain("client-123", "super-secret-value", "enc-key-value", "sk-ant-xyz")
                             .contains("env=sandbox");

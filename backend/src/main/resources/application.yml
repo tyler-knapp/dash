@@ -10,6 +10,11 @@ spring:
     locations: classpath:db/migration
   jackson:
     time-zone: America/New_York
+  sync:
+    scheduler-enabled: ${SYNC_SCHEDULER_ENABLED:true}
+    # Spring cron (sec min hour day month weekday), in America/New_York: 00:00, 06:00, 12:00, 18:00.
+    cron: ${SYNC_CRON:0 0 */6 * * *}
+    follow-up-delays: 15s, 30s, 1m, 2m, 4m, 8m, 15m
   mvc:
     problemdetails:
       enabled: true
@@ -23,10 +28,17 @@ app:
     client-id: ${PLAID_CLIENT_ID:}
     secret: ${PLAID_SECRET:}
     env: ${PLAID_ENV:sandbox}
+    # Needed for OAuth banks (Phase 6): the app's HTTPS address + /oauth-return, registered in the Plaid dashboard.
+    redirect-uri: ${PLAID_REDIRECT_URI:}
   token-enc-key: ${TOKEN_ENC_KEY:}
   anthropic-api-key: ${ANTHROPIC_API_KEY:}
   password-hash: ${APP_PASSWORD_HASH:}
   time-zone: America/New_York
+  sync:
+    scheduler-enabled: ${SYNC_SCHEDULER_ENABLED:true}
+    # Spring cron (sec min hour day month weekday), in America/New_York: 00:00, 06:00, 12:00, 18:00.
+    cron: ${SYNC_CRON:0 0 */6 * * *}
+    follow-up-delays: 15s, 30s, 1m, 2m, 4m, 8m, 15m
 
 logging:
   level:
