@@ -15,6 +15,10 @@ spring:
     # Spring cron (sec min hour day month weekday), in America/New_York: 00:00, 06:00, 12:00, 18:00.
     cron: ${SYNC_CRON:0 0 */6 * * *}
     follow-up-delays: 15s, 30s, 1m, 2m, 4m, 8m, 15m
+  sample-data:
+    # Dev only. Removed automatically when the first real institution is linked.
+    enabled: ${SAMPLE_DATA:false}
+    dir: ${SAMPLE_DATA_DIR:../reference/sample-data}
   mvc:
     problemdetails:
       enabled: true
@@ -39,6 +43,10 @@ app:
     # Spring cron (sec min hour day month weekday), in America/New_York: 00:00, 06:00, 12:00, 18:00.
     cron: ${SYNC_CRON:0 0 */6 * * *}
     follow-up-delays: 15s, 30s, 1m, 2m, 4m, 8m, 15m
+  sample-data:
+    # Dev only. Removed automatically when the first real institution is linked.
+    enabled: ${SAMPLE_DATA:false}
+    dir: ${SAMPLE_DATA_DIR:../reference/sample-data}
 
 logging:
   level:

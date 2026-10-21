@@ -3,6 +3,7 @@ package com.tylerknapp.finance.link;
 import com.tylerknapp.finance.config.AppProperties;
 import com.tylerknapp.finance.crypto.CryptoConfig.TokenCipherProvider;
 import com.tylerknapp.finance.plaid.PlaidGateway;
+import com.tylerknapp.finance.sample.SampleDataService;
 import com.tylerknapp.finance.store.ItemRepository;
 import com.tylerknapp.finance.sync.ItemNotFoundException;
 import com.tylerknapp.finance.sync.SyncResult;
@@ -28,9 +29,11 @@ public class LinkService {
     private final SyncService sync;
     private final SyncScheduler scheduler;
     private final AppProperties props;
+    private final SampleDataService sampleData;
 
     public LinkService(PlaidGateway plaid, TokenCipherProvider cipher, ItemRepository items, SyncService sync,
-                       SyncScheduler scheduler, AppProperties props) {
+                       SyncScheduler scheduler, AppProperties props, SampleDataService sampleData) {
+        this.sampleData = sampleData;
         this.plaid = plaid;
         this.cipher = cipher;
         this.items = items;
@@ -75,6 +78,7 @@ public class LinkService {
         UUID id = items.upsert(ex.itemId(), info.institutionId(), info.institutionName(),
                 cipher.get().encrypt(ex.accessToken()), info.products());
         log.info("Linked item {} ({}), products={}", id, info.institutionName(), info.products());
+        sampleData.clear(); // real data from here on; never mix it with the sample set
         SyncResult first = sync.syncItem(id);
         scheduler.scheduleFollowUps(id);
         return new Linked(id, first);

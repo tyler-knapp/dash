@@ -19,7 +19,8 @@ class AppPropertiesTest {
             .withConfiguration(AutoConfigurations.of(ValidationAutoConfiguration.class))
             .withUserConfiguration(Cfg.class)
             .withPropertyValues("app.time-zone=America/New_York", "app.sync.scheduler-enabled=false",
-                    "app.sync.cron=0 0 */6 * * *", "app.sync.follow-up-delays=15s, 1m");
+                    "app.sync.cron=0 0 */6 * * *", "app.sync.follow-up-delays=15s, 1m",
+                    "app.sample-data.enabled=false", "app.sample-data.dir=x");
 
     @Test
     void bindsAndNeverPrintsSecrets() {

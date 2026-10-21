@@ -21,7 +21,11 @@ public record AppProperties(
         String anthropicApiKey,
         String passwordHash,
         @NotNull ZoneId timeZone,
-        @Valid @NotNull Sync sync) {
+        @Valid @NotNull Sync sync,
+        @Valid @NotNull SampleData sampleData) {
+
+    /** Dev only: load reference/sample-data on startup while no real accounts exist. */
+    public record SampleData(boolean enabled, @NotNull String dir) {}
 
     /**
      * @param schedulerEnabled run the periodic sync of all Items
@@ -64,7 +68,7 @@ public record AppProperties(
     public String toString() {
         return "AppProperties[" + plaid + ", tokenEncKey=" + mark(tokenEncKey)
                 + ", anthropicApiKey=" + mark(anthropicApiKey) + ", passwordHash=" + mark(passwordHash)
-                + ", timeZone=" + timeZone + ", " + sync + "]";
+                + ", timeZone=" + timeZone + ", " + sync + ", " + sampleData + "]";
     }
 
     static boolean isSet(String s) {

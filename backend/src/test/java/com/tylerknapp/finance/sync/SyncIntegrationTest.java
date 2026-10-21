@@ -51,11 +51,12 @@ class SyncIntegrationTest extends PostgresTestBase {
     @Autowired JdbcTemplate jdbc;
     @Autowired SyncService sync;
     @Autowired SyncScheduler scheduler;
+    @Autowired com.tylerknapp.finance.sample.SampleDataService sampleData;
 
     @BeforeEach
     void clean() {
         plaid.reset();
-        jdbc.execute("truncate item, account, transaction, balance_snapshot cascade");
+        jdbc.execute("truncate item, account, transaction, balance_snapshot, budget_version cascade");
     }
 
     /** A bank login with checking + a credit card, linked through the API. */
@@ -107,6 +108,16 @@ class SyncIntegrationTest extends PostgresTestBase {
                 where a.plaid_account_id = 'cc-0002'""", BigDecimal.class)).isEqualByComparingTo("-412.66");
         assertThat(jdbc.queryForObject("select sync_cursor from item", String.class)).isEqualTo("c1");
         assertThat(jdbc.queryForObject("select status from item", String.class)).isEqualTo("ok");
+    }
+
+    @Test
+    void linkingARealInstitutionRemovesSampleData() throws Exception {
+        sampleData.load(java.nio.file.Path.of("../reference/sample-data"));
+        assertThat(jdbc.queryForObject("select count(*) from account where is_sample", Integer.class)).isEqualTo(12);
+        link(bank("public-real"), "public-real");
+        assertThat(jdbc.queryForObject("select count(*) from account where is_sample", Integer.class)).isZero();
+        assertThat(jdbc.queryForObject("select count(*) from budget_version where is_sample", Integer.class)).isZero();
+        assertThat(jdbc.queryForObject("select count(*) from account", Integer.class)).isEqualTo(2);
     }
 
     @Test
