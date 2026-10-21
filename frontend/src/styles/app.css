@@ -1,0 +1,97 @@
+/* Ported verbatim from reference/prototype.html <style>. Keep in sync; don't redesign. */
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0}
+/* Layout: one column. Period bar on top, month summary strip, then three views (Budget / Ledger / Net worth). Ledger reads like a statement. */
+:root{
+  --bg:#f3f5f4; --surface:#ffffff; --ink:#15201d; --muted:#5d6b67; --line:#dbe2df;
+  --accent:#1f6b5c; --accent-soft:#dcece7;
+  --good:#2f7d4f; --warn:#b7791f; --bad:#b4413a; --xfer:#7a8784;
+  --f-display:"Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-body:"Public Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1514; --surface:#161e1c; --ink:#e4ebe8; --muted:#97a5a1; --line:#2a3532;
+  --accent:#5fbfa9; --accent-soft:#1d3530; --good:#6cc28c; --warn:#e0a94f; --bad:#e2766d; --xfer:#7f8d89; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1514; --surface:#161e1c; --ink:#e4ebe8; --muted:#97a5a1; --line:#2a3532;
+  --accent:#5fbfa9; --accent-soft:#1d3530; --good:#6cc28c; --warn:#e0a94f; --bad:#e2766d; --xfer:#7f8d89; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
+.wrap{max-width:980px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:18px}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+.eyebrow{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+h1{font-family:var(--f-display);font-weight:800;font-size:1.7rem;letter-spacing:-.02em;margin:2px 0 0;text-wrap:balance}
+.sub{color:var(--muted);font-size:.85rem}
+.sample{display:inline-block;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:600}
+/* Period bar */
+.period{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{font:600 .82rem var(--f-display);border:0;background:none;color:var(--muted);padding:7px 11px;cursor:pointer;border-left:1px solid var(--line)}
+.seg button:first-child{border-left:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+.step{display:flex;gap:4px}
+.step button{font:600 .9rem var(--f-display);width:34px;height:32px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);cursor:pointer}
+.step button:disabled{opacity:.35;cursor:default}
+.custom{display:flex;gap:6px;align-items:center;font-size:.85rem;color:var(--muted)}
+.custom select,.filters select,.filters input[type=search]{font:inherit;font-size:.88rem;padding:6px 9px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);min-width:0}
+.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.summary div{background:var(--surface);padding:12px 14px;display:grid;gap:2px}
+.lbl{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.big{font-family:var(--f-mono);font-size:1.15rem;font-weight:500}
+@media (max-width:620px){.summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+nav{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+nav button{font:600 .9rem var(--f-display);background:none;border:0;color:var(--muted);padding:10px 12px;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px}
+nav button[aria-selected="true"]{color:var(--ink);border-color:var(--accent)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* Budget */
+.cats{display:grid;gap:10px}
+.cat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:10px}
+.cat-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cat-name{font:700 1rem var(--f-display);flex:1 1 150px;min-width:0;overflow-wrap:anywhere;display:flex;align-items:center;gap:8px;background:none;border:0;color:var(--ink);cursor:pointer;padding:0;text-align:left}
+.chev{font-size:.7rem;color:var(--muted);transition:transform .15s}
+.cat.open .chev{transform:rotate(90deg)}
+.figs{display:flex;align-items:center;gap:6px;margin-left:auto;white-space:nowrap;font-size:.88rem;color:var(--muted)}
+.figs .spent{color:var(--ink);font-weight:500}
+.budget-in{width:84px;font:500 .88rem var(--f-mono);text-align:right;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.bar{position:relative;height:8px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--good);border-radius:999px}
+.bar i.warn{background:var(--warn)} .bar i.over{background:var(--bad)}
+.bar b{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink);opacity:.45}
+.state{flex:none;white-space:nowrap;font-size:.75rem;font-weight:600;padding:2px 8px;border-radius:999px;border:1px solid currentColor}
+.state.ok{color:var(--good)} .state.warn{color:var(--warn)} .state.over{color:var(--bad)}
+.subs{display:grid;gap:6px;padding-left:18px;border-left:2px solid var(--line)}
+.subrow{display:flex;justify-content:space-between;gap:10px;font-size:.88rem}
+.subrow span:first-child{color:var(--muted)}
+/* Ledger */
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters input[type=search]{flex:1 1 180px}
+.chk{display:flex;gap:6px;align-items:center;font-size:.85rem;color:var(--muted)}
+.ledger{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.day{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:8px 14px;background:var(--bg);border-top:1px solid var(--line)}
+.day:first-child{border-top:0}
+.tx{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1.3fr) auto;gap:10px;align-items:center;padding:10px 14px;border-top:1px solid var(--line)}
+.merchant{font-weight:600;min-width:0;overflow-wrap:anywhere}
+.acct{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:6px;min-width:0}
+.dot{width:8px;height:8px;border-radius:2px;flex:none}
+.tx select{font:inherit;font-size:.82rem;padding:5px 6px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:100%;min-width:0}
+.catcell{display:grid;gap:3px;min-width:0}
+.tag{font-size:.68rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.tag.auto{color:var(--muted)} .tag.review{color:var(--warn)} .tag.edited{color:var(--accent)}
+.amt{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:500;white-space:nowrap}
+.amt.in{color:var(--good)} .tx.isxfer .amt,.tx.isxfer .merchant{color:var(--xfer)}
+@media (max-width:640px){.tx{grid-template-columns:minmax(0,1fr) auto}.tx .acct{grid-column:1}.tx .catcell{grid-column:1/-1}.tx .amt{grid-row:1;grid-column:2}}
+.more{display:block;width:100%;padding:12px;border:0;border-top:1px solid var(--line);background:var(--surface);color:var(--accent);font:600 .88rem var(--f-display);cursor:pointer}
+.empty{padding:24px 14px;color:var(--muted)}
+.banner{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;color:var(--muted)}
+/* Net worth */
+.nw{display:grid;gap:14px}
+.group{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.group h2{font:700 .95rem var(--f-display);margin:0;padding:12px 14px;display:flex;justify-content:space-between;border-bottom:1px solid var(--line)}
+.arow{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;border-top:1px solid var(--line);align-items:center}
+.arow:first-of-type{border-top:0}
+.arow .meta{font-size:.78rem;color:var(--muted)}
+.neg{color:var(--bad)}
+.note{font-size:.82rem;color:var(--muted);max-width:65ch;margin:0}
+.sr{position:absolute;left:-9999px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
