@@ -21,7 +21,8 @@ Personal finance app for one user (Tyler). Read `SPEC.md` before any work; it is
 - Start everything: `docker compose up --build` (or `make up`), then http://localhost:8080. Backend direct: http://localhost:8081/api/health
 - Smoke-check a running stack: `make smoke`
 - All tests (what CI runs): `make test` (needs Docker for Testcontainers)
-- Backend tests: `cd backend && ./gradlew test`
+- Backend tests: `cd backend && ./gradlew test` (Plaid is faked; real-Sandbox test is skipped)
+- Real Plaid Sandbox test: `cd backend && PLAID_SANDBOX_IT=true PLAID_ENV=sandbox PLAID_CLIENT_ID=… PLAID_SECRET=… ./gradlew test --tests '*PlaidSandboxIT'`
 - Backend dev (db in docker, app on :8081): `make dev-backend`
 - Frontend dev server: `cd frontend && npm run dev` (proxies /api to :8081)
 - Frontend tests: `cd frontend && npm test` (also `npm run lint`, `npm run typecheck`)

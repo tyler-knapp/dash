@@ -27,3 +27,47 @@ One entry per phase (SPEC §10): what was built, what was verified, and how.
 - The dev sandbox this was built in intercepts HTTPS, so image builds there needed an extra CA. Both Dockerfiles accept an optional build secret `extra_ca` (a PEM bundle) for that case; on a normal machine nothing is needed and the step does nothing.
 - No budget versions are seeded: the prototype's amounts are placeholders (SPEC §12 Q4). Sample data loading for dev comes with Phases 2–3.
 - Auth is not wired yet (Phase 6); `config.auth` in the health response just reports whether `APP_PASSWORD_HASH` is set.
+
+## Phase 1 — Plaid Sandbox linking and sync 🟡 built and tested against a fake Plaid; live Sandbox check pending (2026-10-21)
+
+**Built**
+- `plaid-java` 47.0.0 (latest on Maven Central) behind a small `PlaidGateway` interface. The real client never logs request bodies. Every Plaid error is logged with `error_code` and `request_id` only.
+- **Linking:** `POST /api/plaid/link-token` with `{itemId?, kind?}`. `kind` is `bank` (default: `transactions`, 730 days of history) or `retirement` (`investments`, for 401(k) providers that don't offer transactions). `itemId` = update mode: the Item's own access token and no products, so no new slot. `POST /api/plaid/exchange {publicToken}` exchanges, reads institution and products via `/item/get`, encrypts and stores the token, saves accounts with roles (depository/credit → ledger, everything else → balance only) and prototype colors, then runs the first sync.
+- **Token encryption:** AES-256-GCM, random 12-byte IV per token, version byte and a fixed associated-data label. A malformed `TOKEN_ENC_KEY` stops startup; a missing one returns 503 when a token is needed.
+- **Sync:** `/transactions/sync` from the stored cursor, 500 per page, with `personal_finance_category_version: v2` and `days_requested: 730`. All pages are fetched first, then accounts, transactions, the new cursor, balances and item status are written in **one DB transaction**. If any page fails, nothing is written and the old cursor stays. `TRANSACTIONS_SYNC_MUTATION_DURING_PAGINATION` restarts from the saved cursor (up to 3 tries).
+  - Sign flipped once, in `Money`: transactions negated; card and loan balances stored negative.
+  - `added` inserted (idempotent on replay). `modified` updates Plaid fields only and never touches the category. `removed` deleted.
+  - Pending → posted: the posted transaction copies category, subcategory, source, confidence and reviewed from the pending row before that row is removed. Works when they arrive on different pages of one sync.
+  - Categorization is a no-op hook (`Categorizer`) until Phase 4. New transactions are uncategorized for now.
+- **Balances:** read from `/accounts/get` (Plaid's cached balances) after each sync, upserted into today's `balance_snapshot` (New York date). `/accounts/balance/get` was not used because Plaid bills it per call. Retirement accounts with no balance fall back to summing holdings from `/investments/holdings/get`. The user's account name is never overwritten by a sync.
+- **Errors:** `ITEM_LOGIN_REQUIRED` → item status `login_required`; other Plaid errors → `error`. `last_error_code` is stored for the UI. Status goes back to `ok` on the next successful sync.
+- **Schedule:** every 6 hours at 00/06/12/18 New York time (`SYNC_CRON`), plus `POST /api/sync` ("Sync now"), with per-Item results. One Item failing, even with an unexpected exception, never stops the others or the scheduler. A per-Item lock prevents overlapping syncs. After a new link, follow-up syncs run at 15s, 30s, 1m, 2m, 4m, 8m and 15m until Plaid reports `HISTORICAL_UPDATE_COMPLETE`, since there are no webhooks.
+- `GET /api/items`: items with status, last sync, history status, last error code and accounts with latest balance. No tokens or cursors.
+- Migration `V3__item_sync_state.sql`: `item.products`, `item.transactions_update_status`, `item.last_error_code`.
+- **Frontend:** a basic Accounts panel (Phase 5 polishes it): Link bank or card, Link retirement account, Sync now, Reconnect (update mode, then sync), status pills, last sync, accounts with signed balances, loading/empty/error states. Uses `react-plaid-link` 5.0.0.
+
+**Verified**
+- `./gradlew test`: **37 passed, 1 skipped** (the live Sandbox test; it needs keys). Against real Postgres 16, with Plaid faked:
+  - linking through the HTTP API loads accounts, transactions and balances; amounts are in app sign (purchase −118.42, paycheck +3412.55, card balance −412.66); no access token in API responses;
+  - the access token in the DB is ciphertext;
+  - the second sync sends the stored cursor and adds only new rows;
+  - modified updates amount, date and merchant but keeps a user category;
+  - removed deletes;
+  - pending → posted keeps the user's category, in one page and across pages;
+  - a failure on page 2 writes nothing and keeps the old cursor; the next run replays and recovers;
+  - mutation during pagination restarts from the saved cursor;
+  - `ITEM_LOGIN_REQUIRED` marks that Item and the others still sync; update-mode link token uses that Item's token with no products; status returns to `ok` after a sync;
+  - retirement Items skip `/transactions/sync` and use holdings when the balance is missing;
+  - balances upsert once per day; a user-renamed account keeps its name;
+  - follow-up syncs run until history is complete, then stop;
+  - a corrupt Item doesn't stop the scheduled run;
+  - plus unit tests for encryption (round trip, fresh IV, tamper and wrong-key detection, key validation), sign flips and Plaid model mapping.
+- Frontend: lint, typecheck, **8/8 tests** (empty state; list with signed balances; full link flow: link token → Link → exchange → refresh; Reconnect via update mode then sync, no exchange; Sync now failure message; Plaid-not-configured message), production build.
+- `docker compose up --build` + `make smoke` pass. With no Plaid keys, `/api/plaid/link-token` returns a clear 503. Screenshot at 400px with hand-inserted rows shows the Accounts panel, Connected and Needs reconnect states.
+
+**Not yet verified (blocks marking Phase 1 done)**
+- The "Done when" checks against the **real** Plaid Sandbox (link with `user_good`/`pass_good`, incremental second sync) have **not run**. This dev environment has no Plaid keys and its network policy blocks `sandbox.plaid.com`. `PlaidSandboxIT` covers exactly this (link via `/sandbox/public_token/create`, sync until history completes, sign check against Plaid's raw amount, incremental second sync, reset login → `login_required` → update-mode token). It runs with the command in CLAUDE.md once keys and network access exist.
+- Plaid Link in a browser (the iframe) can't be tested here for the same reason.
+
+**Open items for later phases**
+- Vanguard's money market may come through as an `investment` account, which Plaid's Transactions product doesn't cover. If so, it becomes balance-only rather than a ledger account, or needs `/investments/transactions/get`. Check during Phase 6 linking.
