@@ -30,7 +30,7 @@ smoke:
 # Local dev without containers for the app (db still in docker).
 dev-backend:
 	docker compose up -d db
-	cd backend && PORT=8081 ./gradlew bootRun
+	cd backend && PORT=8081 SAMPLE_DATA=$${SAMPLE_DATA:-true} ./gradlew bootRun
 
 dev-frontend:
 	cd frontend && npm run dev
