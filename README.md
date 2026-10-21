@@ -12,6 +12,8 @@ docker compose up --build
 - App: http://localhost:8080
 - API health: http://localhost:8081/api/health
 
+To use it from your phone and other devices (private, via Tailscale), and for the long-term home-server setup, see [`docs/hosting.md`](docs/hosting.md).
+
 ## Develop
 
 ```sh

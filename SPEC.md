@@ -59,7 +59,7 @@ db          Postgres 16 (docker compose for local dev). Flyway migrations.
 
 **Auth.** Single user. Local dev may run without auth. Any deployment reachable from the internet must require login: one password (bcrypt hash in env) with a secure, HTTP-only session cookie, plus rate limiting on the login endpoint. Every `/api/**` route requires the session.
 
-**Hosting (decide later, see Open questions).** Start local with docker compose. Design so the same containers deploy to a small host with HTTPS.
+**Hosting (decided: self-hosted + Tailscale, free).** The app runs with docker compose on a computer Tyler owns: his laptop first, an always-on home server (mini PC or Raspberry Pi) later. Phone and desktop reach it through Tailscale (`tailscale serve`, tailnet-only HTTPS at `https://<machine>.<tailnet>.ts.net`). It is never published to the public internet (no `tailscale funnel`, no port forwarding). Password auth stays on as a second layer. Setup steps and home-server guidance: `docs/hosting.md`.
 
 ---
 
@@ -144,7 +144,7 @@ Only `spend` categories count against budgets and toward "Spent". `transfer` is 
 - After each sync, fetch balances for all accounts on the Item and upsert today's `balance_snapshot`.
 - Retirement institutions: use the balance on the account object (or `/investments/holdings/get` totals if the account balance is missing). No holdings stored in v1.
 
-**Schedule.** Sync all Items every 6 hours with `@Scheduled`, plus a "Sync now" button. Webhooks (`SYNC_UPDATES_AVAILABLE`) are optional and only possible once the backend has a public HTTPS URL.
+**Schedule.** Sync all Items every 6 hours with `@Scheduled`, plus a "Sync now" button. Webhooks (`SYNC_UPDATES_AVAILABLE`) need a public HTTPS URL, which the Tailscale setup deliberately doesn't have, so v1 relies on the schedule and Sync now.
 
 **Errors.** Map `ITEM_LOGIN_REQUIRED` to item status `login_required` and surface it in the UI. Never crash the scheduler on one Item's failure. Log Plaid `request_id` on every error.
 
@@ -259,8 +259,9 @@ Each phase ends with tests passing and a short note in `PROGRESS.md` saying what
 **Phase 5 — Net worth and manual accounts.** Net worth tab, manual account + balance entry, Accounts screen.
 *Done when:* totals equal the sum of latest snapshots; a manual account shows its updated date.
 
-**Phase 6 — Production cutover.** Auth on, deploy (if hosting is chosen), `PLAID_ENV=production`, OAuth redirect configured, link the 8 real logins one at a time.
-*Done when:* every account in section 2 appears with a balance (or is set up as manual), and the first real sync categorizes without errors. **Stop and ask Tyler before each production link.** Slots are not refundable.
+**Phase 6 — Production cutover.** Auth on; Tailscale hosting per `docs/hosting.md` (Tyler does the account/device steps; the app side is: nginx passes through `X-Forwarded-Proto`, Spring trusts forwarded headers, session cookie is Secure); `make backup` (nightly `pg_dump`, documented restore); `PLAID_ENV=production`; OAuth redirect URI registered at the Tailscale HTTPS address; link the 8 real logins one at a time.
+*Done when:* the app loads on Tyler's phone and desktop over the Tailscale address and requires the password; a backup restores into a fresh database; every account in section 2 appears with a balance (or is set up as manual); and the first real sync categorizes without errors. **Stop and ask Tyler before each production link.** Slots are not refundable.
+*Optional earlier preview:* the Tailscale and auth pieces can be pulled forward (e.g. after Phase 2) to try the app on a phone with Sandbox data.
 
 **Phase 7 — Later.** Category rules and "always categorize this merchant", month-by-month trend chart per category, net worth history chart, budget vs. actual by month for the year, optional MCP server so Claude chat can answer questions about spending, optional webhooks.
 
@@ -278,7 +279,7 @@ Each phase ends with tests passing and a short note in `PROGRESS.md` saying what
 
 ## 12. Open questions for Tyler
 
-1. **Hosting:** local-only (laptop, docker compose) or a small cloud host so it works from a phone? Phone access requires hosting plus auth.
+1. ~~**Hosting**~~ **Decided:** free self-hosting with Tailscale: laptop now, home server (mini PC or Raspberry Pi) later. See §3 and `docs/hosting.md`.
 2. **Claude API spend:** OK to use the Anthropic API for categorization (low cost at ~50–60 transactions a month), or start with Plaid categories + manual review only?
 3. **History depth:** pull the full 2 years on first link, or start from January 2026?
 4. **Budget amounts:** the prototype's numbers are placeholders. Real starting budgets?
