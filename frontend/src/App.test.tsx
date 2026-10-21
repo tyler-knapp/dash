@@ -2,15 +2,20 @@ import { render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import App from './App'
 
+vi.mock('react-plaid-link', () => ({ usePlaidLink: () => ({ open: vi.fn(), ready: false }) }))
+
 function mockFetch(res: { ok: boolean; status: number; body: unknown }) {
   vi.stubGlobal(
     'fetch',
-    vi.fn(async () => ({
-      ok: res.ok,
-      status: res.status,
-      statusText: res.ok ? 'OK' : 'Service Unavailable',
-      text: async () => JSON.stringify(res.body),
-    })),
+    vi.fn(async (path: string) => {
+      const r = path === '/api/items' ? { ok: true, status: 200, body: [] } : res
+      return {
+        ok: r.ok,
+        status: r.status,
+        statusText: r.ok ? 'OK' : 'Service Unavailable',
+        text: async () => JSON.stringify(r.body),
+      }
+    }),
   )
 }
 

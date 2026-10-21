@@ -1,0 +1,11 @@
+/* Additions the prototype doesn't have (Accounts screen). Built only from prototype tokens. */
+.btn{font:600 .85rem var(--f-display);padding:7px 12px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--surface);cursor:pointer}
+.btn.ghost{background:var(--surface);color:var(--accent);border-color:var(--line)}
+.btn.small{padding:3px 9px;font-size:.78rem;margin-left:auto}
+.btn:disabled{opacity:.55;cursor:default}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.accounts{display:grid;gap:12px}
+.group h2 .state{font-family:var(--f-body)}
+.item-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 14px;font-size:.8rem;color:var(--muted);border-bottom:1px solid var(--line)}
+.arow .acct{font-size:inherit;color:var(--ink);align-items:flex-start}
+.arow .acct .dot{margin-top:6px}

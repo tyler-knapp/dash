@@ -29,3 +29,11 @@ function safeParse(text: string): unknown {
     return text
   }
 }
+
+export function postJson<T>(path: string, body?: unknown): Promise<T> {
+  return getJson<T>(path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  })
+}

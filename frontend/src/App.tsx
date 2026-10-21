@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
+import { AccountsView } from './accounts/AccountsView'
 import { fetchHealth, type Health } from './api/health'
 
 type State = { kind: 'loading' } | { kind: 'ok'; health: Health } | { kind: 'error'; message: string }
 
-/** Phase 0 shell: prototype header plus backend status. Tabs arrive in Phases 2–5. */
+/** Shell: prototype header, backend status and linked accounts. Budget/Ledger/Net worth tabs arrive in Phases 2–5. */
 export default function App() {
   const [state, setState] = useState<State>({ kind: 'loading' })
 
@@ -28,6 +29,7 @@ export default function App() {
         {state.kind === 'ok' && <span className="sample">{state.health.plaidEnv}</span>}
       </header>
       <StatusBanner state={state} />
+      {state.kind === 'ok' && <AccountsView />}
     </div>
   )
 }
