@@ -148,3 +148,42 @@ Built on sample data. Phase 1's live Plaid check is still open; Tyler expects to
 **Notes**
 - `docker compose up --build` couldn't be re-run at the end of this phase: Docker Hub answered 429 Too Many Requests when this sandbox tried to pull the JRE and Node base images. No Dockerfile or compose change was made in Phase 3, and CI (`make test`) doesn't use those images.
 - Uncategorized transactions (real Plaid data before Phase 4) are left out of Spent; the summary reports how many there are as `uncategorizedCount` for later use in the UI.
+
+## Phase 4 — Categorization 🟡 built and tested end to end with Plaid and Claude faked; live checks pending keys (2026-10-22)
+
+**Built** (SPEC §7, first match wins; runs on every newly added transaction during sync)
+1. **User rules** from `category_rule` by priority (exact / contains / regex on merchant, raw name or account) → source `rule`, confidence 1.0. The table is empty until Phase 7 adds a way to create rules.
+2. **Transfers.**
+   - Plaid's credit card payment and transfer categories → source `plaid`, Plaid's confidence.
+   - Card-payment wording on either side: "Payment received – thank you" landing on a card; "Amex payment" or "CREDIT CARD 3333 PAYMENT" leaving checking, recognized by card words or the names of Tyler's own linked cards.
+   - Person-to-person apps (Venmo, Zelle, Cash App, PayPal) are deliberately *not* treated as transfers; the spec lists Venmo as ambiguous.
+   - **Pairing:** an equal and opposite amount on another of Tyler's own ledger accounts within 3 days → both sides Transfer (Card Payment if a card is involved, else Account Transfer), source `rule`, confidence 0.9. The other side can be in the same sync or already stored; a stored side is updated unless Tyler set or reviewed it. Guards: under $1 never pairs, and a side Plaid confidently calls a purchase or income doesn't pair.
+3. **Plaid category map** (`PfcMapper`) for clear cases (groceries, coffee, restaurants, gas, parking, car maintenance, rent, electric, internet, streaming, gym, medical, clothing, haircuts, travel, events, gifts, salary, interest), used only when Plaid's confidence is ≥ 0.85 (VERY_HIGH 0.95, HIGH 0.85, MEDIUM 0.65, LOW 0.4).
+4. **Claude** (`ClaudeCategorizer`, official `com.anthropic:anthropic-java` **3.1.0**, API version 2026-10-21, model `claude-opus-5-5`, low effort, structured JSON output) for everything else, in batches of up to 50.
+   - The prompt has the full taxonomy, the rules (card payments are never spending, refunds go in the purchase's category, low confidence for ambiguous merchants), seeded examples for the spec's ambiguous merchants (Amazon, Target, Venmo, Kroger Fuel, Goodwill, Plato's Closet, Ticketmaster vs Ticketmaster resale), and up to 20 of Tyler's latest manual corrections.
+   - Transactions are sent with short ids (`t1…`), never Plaid ids.
+   - Every answer is validated: id known and answered once, category/subcategory pair in the taxonomy, confidence 0–1. Anything invalid, missing or duplicated, a refused or cut-off reply, or a failed call **falls back to the Plaid map at confidence 0.3**, so it shows as Review.
+   - Server-side refusal fallback (`fallbacks: "default"`, beta `server-side-fallback-2026-07-01`) is on by default; turn it off with `AI_SERVER_FALLBACKS=false`.
+- **Without `ANTHROPIC_API_KEY`**, step 4 is skipped: unclear transactions get the Plaid map's guess at low confidence (≤ 0.65) and show as Review. If Plaid sent no category at all, the transaction stays uncategorized and shows "Review · uncategorized".
+- `POST /api/transactions/categorize`: re-runs the pipeline on uncategorized or 0.3-fallback rows (e.g. after adding an API key later). It never touches rows Tyler set or reviewed.
+- Category names Plaid sends that have no clear-case mapping are logged after each sync, so the map can be extended after the first real sync.
+- The Review tag and "Needs review only" filter already followed the spec rule (confidence < 0.7 and not reviewed) from Phase 2.
+
+**Verified**
+- Backend `./gradlew test`: **101 passed, 2 skipped** (live Plaid Sandbox and live Claude tests; both need keys).
+- `CategorizationIntegrationTest` runs a 24-transaction fixture modeled on Plaid Sandbox's test bank through the real sync, pipeline, Postgres and API, with a scriptable fake Claude:
+  - **Every transaction gets a valid category** in all four model situations: no model, valid answers, garbage answers, and a model call that throws.
+  - **Invalid model output falls back safely:** unknown category, wrong category/subcategory pair, confidence 1.7, unknown id, empty answer and duplicate answers all become Plaid-map fallbacks at exactly 0.3, while valid answers are kept as `ai`. A failed call still leaves the sync `ok`. (This test caught a bug: a duplicate answer could override a rejected one. Fixed.)
+  - **Card payments never count as spending:** all four card-payment rows ($2,078.50 Plaid-tagged on the card, $25 Plaid-tagged from checking, and a $412.66 pair that only matched by wording and amount) end up Transfer › Card Payment, and `/api/summary` Spent equals the database's spend-category total.
+  - Claude only receives what steps 1–3 couldn't settle; batches go out 50 / 50 / 20 for 120 transactions; exactly 20 user corrections are included; transfer pairs across two syncs update the earlier side but never a user-set row; a coincidental $40 dinner and $40 payout don't pair; a user rule beats everything; the recategorize endpoint upgrades fallbacks once a model is available and skips reviewed rows; a transaction with no Plaid category stays uncategorized and needs review.
+  - `PfcMapperTest` (v1 names, v2-style names from Plaid's API spec, ambiguous ones left to the model, every mapping in the taxonomy, a valid fallback for every primary incl. unknown ones), `TransferDetectorTest` (sample-data card-payment wording on both sides; refunds, rent and purchases are not card payments; Venmo/Zelle excluded; retirement contributions), `ClaudeCategorizerTest` (prompt and message content).
+- Frontend unchanged this phase; `make test` passes (33/33 frontend tests).
+
+**Not yet verified**
+- **"Sandbox transactions all get a valid category"** against the *real* Plaid Sandbox: `PlaidSandboxIT` now asserts exactly that (plus credit card payments being Transfer › Card Payment), but it can't run until Sandbox keys exist and `sandbox.plaid.com` is reachable. The fixture above is modeled on Sandbox from memory and is labeled as such.
+- **The real Claude call:** `ClaudeCategorizerIT` sends the fixture once and checks every answer is valid and card payments come back as transfers. It needs `ANTHROPIC_API_KEY`. The request was built from the SDK's own classes (checked with `javap` against the 3.1.0 jar) and compiles, but hasn't been sent.
+- **Plaid's v2 category names:** only a few appear in Plaid's public API spec (plaid.com is blocked here). The map matches on keywords so close variants still map, and anything unmapped still gets a category through the model or the fallback.
+
+**Notes**
+- Cost estimate with Claude Opus 5.5 at low effort: roughly a cent per batch of 50; the first two-year history pull is maybe 30 batches. Steady state is a few calls a month.
+- Categorization runs inside the sync's database transaction, so the model calls during a large first sync keep that transaction open longer; fine for one user.
