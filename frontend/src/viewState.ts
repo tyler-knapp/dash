@@ -14,7 +14,7 @@ const isYm = (s: unknown): s is string => typeof s === 'string' && /^\d{4}-(0[1-
 
 /** Last tab and period from localStorage (SPEC §9). Anything missing or malformed falls back to defaults. */
 export function loadViewState(today: Today): ViewState {
-  const fallback: ViewState = { period: defaultPeriod(today), tab: 'ledger' }
+  const fallback: ViewState = { period: defaultPeriod(today), tab: 'budget' } // the prototype opens on Budget
   try {
     const raw = JSON.parse(localStorage.getItem(KEY) ?? 'null')
     if (!raw || typeof raw !== 'object') return fallback
