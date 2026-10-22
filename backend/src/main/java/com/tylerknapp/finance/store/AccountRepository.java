@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AccountRepository {
     /** Same colors the prototype uses for accounts, handed out in order. */
-    static final List<String> PALETTE = List.of("#1f6b5c", "#2b6cb0", "#b4413a", "#3d8b5f", "#6b5bb4",
+    public static final List<String> PALETTE = List.of("#1f6b5c", "#2b6cb0", "#b4413a", "#3d8b5f", "#6b5bb4",
             "#a0522d", "#4f9a86", "#8a7dd0", "#2f7d4f", "#b7791f");
 
     private final JdbcTemplate jdbc;
