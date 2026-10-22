@@ -35,3 +35,5 @@ nav button{white-space:nowrap}
 .swatch{width:22px;height:22px;border-radius:6px;border:2px solid transparent;cursor:pointer}
 .swatch[aria-pressed="true"]{border-color:var(--ink)}
 .form-actions{display:flex;gap:6px}
+/* Home-screen app: keep content clear of the notch / status bar and the home indicator */
+.wrap{padding-top:max(20px,env(safe-area-inset-top,0px));padding-bottom:max(48px,calc(env(safe-area-inset-bottom,0px) + 24px))}
