@@ -12,7 +12,14 @@ function api(over: Record<string, Parameters<typeof mockApi>[0][string]> = {}) {
     'GET /api/health': () => ({ body: healthy }),
     'GET /api/categories': () => ({ body: [] }),
     'GET /api/accounts': () => ({ body: [{ id: 'a', name: 'Amex', role: 'ledger', isSample: true }] }),
-    'GET /api/transactions': () => ({ body: { transactions: [], total: 42, nextCursor: null } }),
+    'GET /api/transactions': () => ({ body: { transactions: [], total: 0, nextCursor: null } }),
+    'GET /api/summary': (_b, url) => {
+      const from = url.searchParams.get('from')!
+      const to = url.searchParams.get('to')!
+      return { body: { from, to, months: [from], periodState: 'current', today: '2026-10-21', transactionCount: 42,
+        uncategorizedCount: 0, income: 100, spent: 40, budgeted: 500, net: 60, categories: [] } }
+    },
+    'PUT /api/budgets/*': () => ({ body: {} }),
     'GET /api/items': () => ({ body: [] }),
     ...over,
   })
@@ -37,6 +44,8 @@ describe('App shell', () => {
     expect(await screen.findByText('Oct 1 – Oct 21 (today) · 42 transactions')).toBeInTheDocument()
     expect(await screen.findByText('Sample data')).toBeInTheDocument()
     expect(screen.queryByRole('alert')).toBeNull()
+    expect(screen.getByText('+$60.00')).toBeInTheDocument() // summary strip
+    expect(screen.getByRole('tab', { name: 'Budget' })).toHaveAttribute('aria-selected', 'true') // opens on Budget, like the prototype
   })
 
   it('steps periods and remembers tab and period across reloads', async () => {

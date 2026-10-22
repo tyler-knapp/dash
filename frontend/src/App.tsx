@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AccountsView } from './accounts/AccountsView'
-import { fetchAccounts, fetchCategories, fetchTransactions, type Account, type Category } from './api/ledger'
+import { fetchSummary, setBudget, type Summary } from './api/budget'
+import { fetchAccounts, fetchCategories, type Account, type Category } from './api/ledger'
 import { fetchHealth, type Health } from './api/health'
+import { BudgetView } from './budget/BudgetView'
 import { PeriodBar } from './components/PeriodBar'
+import { SummaryStrip } from './components/SummaryStrip'
 import { Toast } from './components/Toast'
 import { LedgerView } from './ledger/LedgerView'
 import { periodMonths, periodTitle, spanLabel, todayInNewYork, type Period } from './period'
@@ -16,8 +19,9 @@ const TAB_LABELS: [Tab, string][] = [
 ]
 
 type HealthState = { kind: 'loading' } | { kind: 'ok'; health: Health } | { kind: 'error'; message: string }
+type SummaryState = { kind: 'loading' } | { kind: 'ok'; summary: Summary } | { kind: 'error' }
 
-/** Layout from the prototype: eyebrow, period title + span, badge, period bar, tabs. Summary strip arrives in Phase 3. */
+/** Layout from the prototype: eyebrow, period title + span, badge, period bar, summary strip, tabs. */
 export default function App() {
   const today = useMemo(() => todayInNewYork(), [])
   const initial = useMemo(() => loadViewState(today), [today])
@@ -26,8 +30,8 @@ export default function App() {
   const [health, setHealth] = useState<HealthState>({ kind: 'loading' })
   const [accounts, setAccounts] = useState<Account[]>([])
   const [categories, setCategories] = useState<Category[]>([])
-  const [periodCount, setPeriodCount] = useState<number | null>(null)
-  const [countKey, setCountKey] = useState(0)
+  const [summary, setSummary] = useState<SummaryState>({ kind: 'loading' })
+  const [summaryKey, setSummaryKey] = useState(0)
   const [toast, setToast] = useState<string | null>(null)
 
   const months = periodMonths(period, today)
@@ -50,25 +54,40 @@ export default function App() {
     }
   }, [])
 
-  // Header count: every transaction in the period, transfers included (as the prototype counts them).
+  // Summary strip, Budget tab and the header's transaction count all come from /api/summary.
+  // Stale responses (an older period) are ignored.
   useEffect(() => {
     let live = true
-    fetchTransactions({ from, to, includeTransfers: true, limit: 1 }).then(
-      (p) => live && setPeriodCount(p.total),
-      () => live && setPeriodCount(null),
+    fetchSummary(from, to).then(
+      (s) => live && setSummary({ kind: 'ok', summary: s }),
+      () => live && setSummary({ kind: 'error' }),
     )
     return () => {
       live = false
     }
-  }, [from, to, countKey])
+  }, [from, to, summaryKey])
 
+  const refreshSummary = useCallback(() => setSummaryKey((k) => k + 1), [])
   const refreshAccounts = useCallback(() => {
     fetchAccounts().then(setAccounts, () => {})
-    setCountKey((k) => k + 1)
+    setSummaryKey((k) => k + 1)
+  }, [])
+
+  const onSetBudget = useCallback((month: string, category: string, amount: number) => {
+    setBudget(month, category, amount).then(
+      () => setSummaryKey((k) => k + 1),
+      () => {
+        setToast('That change didn’t save. Check your connection and try again.')
+        setSummaryKey((k) => k + 1)
+      },
+    )
   }, [])
   const clearToast = useCallback(() => setToast(null), [])
 
   const sample = accounts.some((a) => a.isSample)
+  // While a new period loads, keep showing the last numbers but don't allow budget edits on them.
+  const fresh = summary.kind === 'ok' && summary.summary.from === from && summary.summary.to === to
+  const periodCount = fresh && summary.kind === 'ok' ? summary.summary.transactionCount : null
   const sub = spanLabel(months, today) + (periodCount === null ? '' : ` · ${periodCount} transaction${periodCount === 1 ? '' : 's'}`)
 
   return (
@@ -86,6 +105,8 @@ export default function App() {
 
       <PeriodBar period={period} today={today} onChange={setPeriod} />
 
+      <SummaryStrip summary={summary.kind === 'ok' ? summary.summary : null} />
+
       <nav role="tablist">
         {TAB_LABELS.map(([t, label]) => (
           <button key={t} role="tab" type="button" id={'tab-' + t} aria-selected={tab === t} onClick={() => setTab(t)}>
@@ -94,7 +115,9 @@ export default function App() {
         ))}
       </nav>
 
-      {tab === 'budget' && <div className="banner">Budgets arrive in the next build phase.</div>}
+      {tab === 'budget' && (
+        <BudgetView load={summary} editable={period.mode === 'month' && fresh} onSetBudget={onSetBudget} onRetry={refreshSummary} />
+      )}
       {tab === 'ledger' && (
         <LedgerView
           from={from}
@@ -104,6 +127,7 @@ export default function App() {
           accounts={accounts}
           categories={categories}
           onToast={setToast}
+          onChanged={refreshSummary}
         />
       )}
       {tab === 'networth' && <div className="banner">Net worth arrives in a later build phase.</div>}

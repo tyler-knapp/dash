@@ -1,0 +1,2374 @@
+{
+  "today": "2026-10-21",
+  "source": "reference/prototype.html",
+  "scenarios": {
+    "month-current": {
+      "period": {
+        "mode": "month",
+        "anchor": "2026-10",
+        "from": "2026-05",
+        "to": "2026-10"
+      },
+      "months": [
+        "2026-10"
+      ],
+      "title": "October 2026",
+      "sub": "Oct 1 – Oct 21 (today) · 48 transactions",
+      "summary": {
+        "income": "$7,165.13",
+        "spent": "$3,365.02",
+        "budgeted": "$4,105",
+        "net": "+$3,800.11"
+      },
+      "note": "Budget changes apply from October 2026 onward. Earlier months keep the budgets they had. The thin marker on each bar shows where spending would be at an even pace.",
+      "editable": true,
+      "categories": [
+        {
+          "name": "Housing",
+          "status": "warn",
+          "statusLabel": "Ahead of pace",
+          "spent": "$1,806.31",
+          "budget": "1900",
+          "barWidth": "95.0689%",
+          "barClass": "warn",
+          "paceLeft": "calc(67.7419% - 1px)",
+          "subs": [
+            [
+              "Rent",
+              "$1,640.00"
+            ],
+            [
+              "Electric",
+              "$96.31"
+            ],
+            [
+              "Internet",
+              "$70.00"
+            ],
+            [
+              "Renters Insurance",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Food",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$461.06",
+          "budget": "750",
+          "barWidth": "61.4747%",
+          "barClass": "",
+          "paceLeft": "calc(67.7419% - 1px)",
+          "subs": [
+            [
+              "Groceries",
+              "$372.61"
+            ],
+            [
+              "Restaurants",
+              "$74.35"
+            ],
+            [
+              "Coffee",
+              "$14.10"
+            ]
+          ]
+        },
+        {
+          "name": "Transportation",
+          "status": "warn",
+          "statusLabel": "Ahead of pace",
+          "spent": "$299.94",
+          "budget": "380",
+          "barWidth": "78.9316%",
+          "barClass": "warn",
+          "paceLeft": "calc(67.7419% - 1px)",
+          "subs": [
+            [
+              "Gas",
+              "$87.95"
+            ],
+            [
+              "Car Insurance",
+              "$128.00"
+            ],
+            [
+              "Maintenance",
+              "$79.99"
+            ],
+            [
+              "Parking",
+              "$4.00"
+            ]
+          ]
+        },
+        {
+          "name": "Health & Fitness",
+          "status": "over",
+          "statusLabel": "Over by $116",
+          "spent": "$391.39",
+          "budget": "275",
+          "barWidth": "100%",
+          "barClass": "over",
+          "paceLeft": "calc(67.7419% - 1px)",
+          "subs": [
+            [
+              "Gym",
+              "$99.00"
+            ],
+            [
+              "Race Fees",
+              "$75.00"
+            ],
+            [
+              "Running Gear",
+              "$164.99"
+            ],
+            [
+              "Supplements",
+              "$52.40"
+            ],
+            [
+              "Medical",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Subscriptions",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$97.43",
+          "budget": "150",
+          "barWidth": "64.9533%",
+          "barClass": "",
+          "paceLeft": "calc(67.7419% - 1px)",
+          "subs": [
+            [
+              "Software & AI",
+              "$22.99"
+            ],
+            [
+              "Streaming",
+              "$15.49"
+            ],
+            [
+              "Research Tools",
+              "$58.95"
+            ]
+          ]
+        },
+        {
+          "name": "Lifestyle",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$201.90",
+          "budget": "350",
+          "barWidth": "57.6857%",
+          "barClass": "",
+          "paceLeft": "calc(67.7419% - 1px)",
+          "subs": [
+            [
+              "Clothing",
+              "$79.90"
+            ],
+            [
+              "Haircuts",
+              "$24.00"
+            ],
+            [
+              "Events",
+              "$58.00"
+            ],
+            [
+              "Travel",
+              "$0.00"
+            ],
+            [
+              "Gifts",
+              "$40.00"
+            ]
+          ]
+        },
+        {
+          "name": "Side Hustles",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$106.99",
+          "budget": "300",
+          "barWidth": "35.6633%",
+          "barClass": "",
+          "paceLeft": "calc(67.7419% - 1px)",
+          "subs": [
+            [
+              "Reselling Inventory",
+              "$64.00"
+            ],
+            [
+              "YouTube Gear",
+              "$42.99"
+            ]
+          ]
+        }
+      ]
+    },
+    "month-past": {
+      "period": {
+        "mode": "month",
+        "anchor": "2026-09",
+        "from": "2026-05",
+        "to": "2026-10"
+      },
+      "months": [
+        "2026-09"
+      ],
+      "title": "September 2026",
+      "sub": "Sep 1 – Sep 30 · 49 transactions",
+      "summary": {
+        "income": "$7,182.43",
+        "spent": "$3,138.18",
+        "budgeted": "$4,105",
+        "net": "+$4,044.25"
+      },
+      "note": "Budget changes apply from September 2026 onward. Earlier months keep the budgets they had. The thin marker on each bar shows where spending would be at an even pace.",
+      "editable": true,
+      "categories": [
+        {
+          "name": "Housing",
+          "status": "ok",
+          "statusLabel": "Under by $78",
+          "spent": "$1,822.48",
+          "budget": "1900",
+          "barWidth": "95.92%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Rent",
+              "$1,640.00"
+            ],
+            [
+              "Electric",
+              "$112.48"
+            ],
+            [
+              "Internet",
+              "$70.00"
+            ],
+            [
+              "Renters Insurance",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Food",
+          "status": "ok",
+          "statusLabel": "Under by $290",
+          "spent": "$460.30",
+          "budget": "750",
+          "barWidth": "61.3733%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Groceries",
+              "$340.95"
+            ],
+            [
+              "Restaurants",
+              "$92.53"
+            ],
+            [
+              "Coffee",
+              "$26.82"
+            ]
+          ]
+        },
+        {
+          "name": "Transportation",
+          "status": "ok",
+          "statusLabel": "Under by $115",
+          "spent": "$265.13",
+          "budget": "380",
+          "barWidth": "69.7711%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Gas",
+              "$131.13"
+            ],
+            [
+              "Car Insurance",
+              "$128.00"
+            ],
+            [
+              "Maintenance",
+              "$0.00"
+            ],
+            [
+              "Parking",
+              "$6.00"
+            ]
+          ]
+        },
+        {
+          "name": "Health & Fitness",
+          "status": "ok",
+          "statusLabel": "Under by $122",
+          "spent": "$153.39",
+          "budget": "275",
+          "barWidth": "55.7782%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Gym",
+              "$99.00"
+            ],
+            [
+              "Race Fees",
+              "$0.00"
+            ],
+            [
+              "Running Gear",
+              "$0.00"
+            ],
+            [
+              "Supplements",
+              "$54.39"
+            ],
+            [
+              "Medical",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Subscriptions",
+          "status": "ok",
+          "statusLabel": "Under by $53",
+          "spent": "$97.43",
+          "budget": "150",
+          "barWidth": "64.9533%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Software & AI",
+              "$22.99"
+            ],
+            [
+              "Streaming",
+              "$15.49"
+            ],
+            [
+              "Research Tools",
+              "$58.95"
+            ]
+          ]
+        },
+        {
+          "name": "Lifestyle",
+          "status": "ok",
+          "statusLabel": "Under by $140",
+          "spent": "$209.78",
+          "budget": "350",
+          "barWidth": "59.9371%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Clothing",
+              "$91.91"
+            ],
+            [
+              "Haircuts",
+              "$24.00"
+            ],
+            [
+              "Events",
+              "$93.87"
+            ],
+            [
+              "Travel",
+              "$0.00"
+            ],
+            [
+              "Gifts",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Side Hustles",
+          "status": "ok",
+          "statusLabel": "Under by $170",
+          "spent": "$129.67",
+          "budget": "300",
+          "barWidth": "43.2233%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Reselling Inventory",
+              "$129.67"
+            ],
+            [
+              "YouTube Gear",
+              "$0.00"
+            ]
+          ]
+        }
+      ]
+    },
+    "month-july-version": {
+      "period": {
+        "mode": "month",
+        "anchor": "2026-07",
+        "from": "2026-05",
+        "to": "2026-10"
+      },
+      "months": [
+        "2026-07"
+      ],
+      "title": "July 2026",
+      "sub": "Jul 1 – Jul 31 · 55 transactions",
+      "summary": {
+        "income": "$7,248.39",
+        "spent": "$3,332.14",
+        "budgeted": "$4,105",
+        "net": "+$3,916.25"
+      },
+      "note": "Budget changes apply from July 2026 onward. Earlier months keep the budgets they had. The thin marker on each bar shows where spending would be at an even pace.",
+      "editable": true,
+      "categories": [
+        {
+          "name": "Housing",
+          "status": "over",
+          "statusLabel": "Over by $72",
+          "spent": "$1,971.92",
+          "budget": "1900",
+          "barWidth": "100%",
+          "barClass": "over",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Rent",
+              "$1,640.00"
+            ],
+            [
+              "Electric",
+              "$149.92"
+            ],
+            [
+              "Internet",
+              "$70.00"
+            ],
+            [
+              "Renters Insurance",
+              "$112.00"
+            ]
+          ]
+        },
+        {
+          "name": "Food",
+          "status": "ok",
+          "statusLabel": "Under by $127",
+          "spent": "$622.96",
+          "budget": "750",
+          "barWidth": "83.0613%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Groceries",
+              "$392.32"
+            ],
+            [
+              "Restaurants",
+              "$185.32"
+            ],
+            [
+              "Coffee",
+              "$45.32"
+            ]
+          ]
+        },
+        {
+          "name": "Transportation",
+          "status": "ok",
+          "statusLabel": "Under by $32",
+          "spent": "$348.04",
+          "budget": "380",
+          "barWidth": "91.5895%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Gas",
+              "$136.89"
+            ],
+            [
+              "Car Insurance",
+              "$128.00"
+            ],
+            [
+              "Maintenance",
+              "$79.15"
+            ],
+            [
+              "Parking",
+              "$4.00"
+            ]
+          ]
+        },
+        {
+          "name": "Health & Fitness",
+          "status": "ok",
+          "statusLabel": "Under by $133",
+          "spent": "$141.61",
+          "budget": "275",
+          "barWidth": "51.4945%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Gym",
+              "$99.00"
+            ],
+            [
+              "Race Fees",
+              "$0.00"
+            ],
+            [
+              "Running Gear",
+              "$0.00"
+            ],
+            [
+              "Supplements",
+              "$42.61"
+            ],
+            [
+              "Medical",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Subscriptions",
+          "status": "ok",
+          "statusLabel": "Under by $53",
+          "spent": "$97.43",
+          "budget": "150",
+          "barWidth": "64.9533%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Software & AI",
+              "$22.99"
+            ],
+            [
+              "Streaming",
+              "$15.49"
+            ],
+            [
+              "Research Tools",
+              "$58.95"
+            ]
+          ]
+        },
+        {
+          "name": "Lifestyle",
+          "status": "ok",
+          "statusLabel": "Under by $326",
+          "spent": "$24.00",
+          "budget": "350",
+          "barWidth": "6.85714%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Clothing",
+              "$0.00"
+            ],
+            [
+              "Haircuts",
+              "$24.00"
+            ],
+            [
+              "Events",
+              "$0.00"
+            ],
+            [
+              "Travel",
+              "$0.00"
+            ],
+            [
+              "Gifts",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Side Hustles",
+          "status": "ok",
+          "statusLabel": "Under by $174",
+          "spent": "$126.18",
+          "budget": "300",
+          "barWidth": "42.06%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Reselling Inventory",
+              "$126.18"
+            ],
+            [
+              "YouTube Gear",
+              "$0.00"
+            ]
+          ]
+        }
+      ]
+    },
+    "month-june": {
+      "period": {
+        "mode": "month",
+        "anchor": "2026-06",
+        "from": "2026-05",
+        "to": "2026-10"
+      },
+      "months": [
+        "2026-06"
+      ],
+      "title": "June 2026",
+      "sub": "Jun 1 – Jun 30 · 53 transactions",
+      "summary": {
+        "income": "$7,106.27",
+        "spent": "$3,898.30",
+        "budgeted": "$4,030",
+        "net": "+$3,207.97"
+      },
+      "note": "Budget changes apply from June 2026 onward. Earlier months keep the budgets they had. The thin marker on each bar shows where spending would be at an even pace.",
+      "editable": true,
+      "categories": [
+        {
+          "name": "Housing",
+          "status": "ok",
+          "statusLabel": "Under by $69",
+          "spent": "$1,831.30",
+          "budget": "1900",
+          "barWidth": "96.3842%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Rent",
+              "$1,640.00"
+            ],
+            [
+              "Electric",
+              "$121.30"
+            ],
+            [
+              "Internet",
+              "$70.00"
+            ],
+            [
+              "Renters Insurance",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Food",
+          "status": "ok",
+          "statusLabel": "Under by $348",
+          "spent": "$351.77",
+          "budget": "700",
+          "barWidth": "50.2529%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Groceries",
+              "$220.60"
+            ],
+            [
+              "Restaurants",
+              "$88.25"
+            ],
+            [
+              "Coffee",
+              "$42.92"
+            ]
+          ]
+        },
+        {
+          "name": "Transportation",
+          "status": "ok",
+          "statusLabel": "Under by $120",
+          "spent": "$260.30",
+          "budget": "380",
+          "barWidth": "68.5%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Gas",
+              "$126.30"
+            ],
+            [
+              "Car Insurance",
+              "$128.00"
+            ],
+            [
+              "Maintenance",
+              "$0.00"
+            ],
+            [
+              "Parking",
+              "$6.00"
+            ]
+          ]
+        },
+        {
+          "name": "Health & Fitness",
+          "status": "ok",
+          "statusLabel": "Under by $112",
+          "spent": "$137.91",
+          "budget": "250",
+          "barWidth": "55.164%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Gym",
+              "$99.00"
+            ],
+            [
+              "Race Fees",
+              "$0.00"
+            ],
+            [
+              "Running Gear",
+              "$0.00"
+            ],
+            [
+              "Supplements",
+              "$38.91"
+            ],
+            [
+              "Medical",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Subscriptions",
+          "status": "ok",
+          "statusLabel": "Under by $53",
+          "spent": "$97.43",
+          "budget": "150",
+          "barWidth": "64.9533%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Software & AI",
+              "$22.99"
+            ],
+            [
+              "Streaming",
+              "$15.49"
+            ],
+            [
+              "Research Tools",
+              "$58.95"
+            ]
+          ]
+        },
+        {
+          "name": "Lifestyle",
+          "status": "over",
+          "statusLabel": "Over by $721",
+          "spent": "$1,070.57",
+          "budget": "350",
+          "barWidth": "100%",
+          "barClass": "over",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Clothing",
+              "$134.88"
+            ],
+            [
+              "Haircuts",
+              "$24.00"
+            ],
+            [
+              "Events",
+              "$110.69"
+            ],
+            [
+              "Travel",
+              "$801.00"
+            ],
+            [
+              "Gifts",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Side Hustles",
+          "status": "ok",
+          "statusLabel": "Under by $151",
+          "spent": "$149.02",
+          "budget": "300",
+          "barWidth": "49.6733%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Reselling Inventory",
+              "$149.02"
+            ],
+            [
+              "YouTube Gear",
+              "$0.00"
+            ]
+          ]
+        }
+      ]
+    },
+    "quarter-past": {
+      "period": {
+        "mode": "quarter",
+        "anchor": "2026-08",
+        "from": "2026-05",
+        "to": "2026-10"
+      },
+      "months": [
+        "2026-07",
+        "2026-08",
+        "2026-09"
+      ],
+      "title": "Q3 2026",
+      "sub": "Jul 1 – Sep 30 · 156 transactions",
+      "summary": {
+        "income": "$21,653.67",
+        "spent": "$9,845.49",
+        "budgeted": "$12,315",
+        "net": "+$11,808.18"
+      },
+      "note": "Budgets here are the monthly budgets added up across 3 months, using whatever amount was in effect each month. Switch to Month to edit them.",
+      "editable": false,
+      "categories": [
+        {
+          "name": "Housing",
+          "status": "ok",
+          "statusLabel": "Under by $39",
+          "spent": "$5,660.51",
+          "budget": "$5,700",
+          "barWidth": "99.3072%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Rent",
+              "$4,920.00"
+            ],
+            [
+              "Electric",
+              "$418.51"
+            ],
+            [
+              "Internet",
+              "$210.00"
+            ],
+            [
+              "Renters Insurance",
+              "$112.00"
+            ]
+          ]
+        },
+        {
+          "name": "Food",
+          "status": "ok",
+          "statusLabel": "Under by $713",
+          "spent": "$1,537.20",
+          "budget": "$2,250",
+          "barWidth": "68.32%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Groceries",
+              "$1,009.14"
+            ],
+            [
+              "Restaurants",
+              "$429.55"
+            ],
+            [
+              "Coffee",
+              "$98.51"
+            ]
+          ]
+        },
+        {
+          "name": "Transportation",
+          "status": "ok",
+          "statusLabel": "Under by $275",
+          "spent": "$865.15",
+          "budget": "$1,140",
+          "barWidth": "75.8904%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Gas",
+              "$386.00"
+            ],
+            [
+              "Car Insurance",
+              "$384.00"
+            ],
+            [
+              "Maintenance",
+              "$79.15"
+            ],
+            [
+              "Parking",
+              "$16.00"
+            ]
+          ]
+        },
+        {
+          "name": "Health & Fitness",
+          "status": "ok",
+          "statusLabel": "Under by $56",
+          "spent": "$768.94",
+          "budget": "$825",
+          "barWidth": "93.2048%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Gym",
+              "$297.00"
+            ],
+            [
+              "Race Fees",
+              "$165.00"
+            ],
+            [
+              "Running Gear",
+              "$155.51"
+            ],
+            [
+              "Supplements",
+              "$151.43"
+            ],
+            [
+              "Medical",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Subscriptions",
+          "status": "ok",
+          "statusLabel": "Under by $158",
+          "spent": "$292.29",
+          "budget": "$450",
+          "barWidth": "64.9533%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Software & AI",
+              "$68.97"
+            ],
+            [
+              "Streaming",
+              "$46.47"
+            ],
+            [
+              "Research Tools",
+              "$176.85"
+            ]
+          ]
+        },
+        {
+          "name": "Lifestyle",
+          "status": "ok",
+          "statusLabel": "Under by $792",
+          "spent": "$257.78",
+          "budget": "$1,050",
+          "barWidth": "24.5505%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Clothing",
+              "$91.91"
+            ],
+            [
+              "Haircuts",
+              "$72.00"
+            ],
+            [
+              "Events",
+              "$93.87"
+            ],
+            [
+              "Travel",
+              "$0.00"
+            ],
+            [
+              "Gifts",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Side Hustles",
+          "status": "ok",
+          "statusLabel": "Under by $436",
+          "spent": "$463.62",
+          "budget": "$900",
+          "barWidth": "51.5133%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Reselling Inventory",
+              "$373.67"
+            ],
+            [
+              "YouTube Gear",
+              "$89.95"
+            ]
+          ]
+        }
+      ]
+    },
+    "quarter-current": {
+      "period": {
+        "mode": "quarter",
+        "anchor": "2026-10",
+        "from": "2026-05",
+        "to": "2026-10"
+      },
+      "months": [
+        "2026-10",
+        "2026-11",
+        "2026-12"
+      ],
+      "title": "Q4 2026",
+      "sub": "Oct 1 – Oct 21 (today) · 48 transactions",
+      "summary": {
+        "income": "$7,165.13",
+        "spent": "$3,365.02",
+        "budgeted": "$12,315",
+        "net": "+$3,800.11"
+      },
+      "note": "Budgets here are the monthly budgets added up across 3 months, using whatever amount was in effect each month. Switch to Month to edit them.",
+      "editable": false,
+      "categories": [
+        {
+          "name": "Housing",
+          "status": "warn",
+          "statusLabel": "Ahead of pace",
+          "spent": "$1,806.31",
+          "budget": "$5,700",
+          "barWidth": "31.6896%",
+          "barClass": "warn",
+          "paceLeft": "calc(22.5806% - 1px)",
+          "subs": [
+            [
+              "Rent",
+              "$1,640.00"
+            ],
+            [
+              "Electric",
+              "$96.31"
+            ],
+            [
+              "Internet",
+              "$70.00"
+            ],
+            [
+              "Renters Insurance",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Food",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$461.06",
+          "budget": "$2,250",
+          "barWidth": "20.4916%",
+          "barClass": "",
+          "paceLeft": "calc(22.5806% - 1px)",
+          "subs": [
+            [
+              "Groceries",
+              "$372.61"
+            ],
+            [
+              "Restaurants",
+              "$74.35"
+            ],
+            [
+              "Coffee",
+              "$14.10"
+            ]
+          ]
+        },
+        {
+          "name": "Transportation",
+          "status": "warn",
+          "statusLabel": "Ahead of pace",
+          "spent": "$299.94",
+          "budget": "$1,140",
+          "barWidth": "26.3105%",
+          "barClass": "warn",
+          "paceLeft": "calc(22.5806% - 1px)",
+          "subs": [
+            [
+              "Gas",
+              "$87.95"
+            ],
+            [
+              "Car Insurance",
+              "$128.00"
+            ],
+            [
+              "Maintenance",
+              "$79.99"
+            ],
+            [
+              "Parking",
+              "$4.00"
+            ]
+          ]
+        },
+        {
+          "name": "Health & Fitness",
+          "status": "warn",
+          "statusLabel": "Ahead of pace",
+          "spent": "$391.39",
+          "budget": "$825",
+          "barWidth": "47.4412%",
+          "barClass": "warn",
+          "paceLeft": "calc(22.5806% - 1px)",
+          "subs": [
+            [
+              "Gym",
+              "$99.00"
+            ],
+            [
+              "Race Fees",
+              "$75.00"
+            ],
+            [
+              "Running Gear",
+              "$164.99"
+            ],
+            [
+              "Supplements",
+              "$52.40"
+            ],
+            [
+              "Medical",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Subscriptions",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$97.43",
+          "budget": "$450",
+          "barWidth": "21.6511%",
+          "barClass": "",
+          "paceLeft": "calc(22.5806% - 1px)",
+          "subs": [
+            [
+              "Software & AI",
+              "$22.99"
+            ],
+            [
+              "Streaming",
+              "$15.49"
+            ],
+            [
+              "Research Tools",
+              "$58.95"
+            ]
+          ]
+        },
+        {
+          "name": "Lifestyle",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$201.90",
+          "budget": "$1,050",
+          "barWidth": "19.2286%",
+          "barClass": "",
+          "paceLeft": "calc(22.5806% - 1px)",
+          "subs": [
+            [
+              "Clothing",
+              "$79.90"
+            ],
+            [
+              "Haircuts",
+              "$24.00"
+            ],
+            [
+              "Events",
+              "$58.00"
+            ],
+            [
+              "Travel",
+              "$0.00"
+            ],
+            [
+              "Gifts",
+              "$40.00"
+            ]
+          ]
+        },
+        {
+          "name": "Side Hustles",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$106.99",
+          "budget": "$900",
+          "barWidth": "11.8878%",
+          "barClass": "",
+          "paceLeft": "calc(22.5806% - 1px)",
+          "subs": [
+            [
+              "Reselling Inventory",
+              "$64.00"
+            ],
+            [
+              "YouTube Gear",
+              "$42.99"
+            ]
+          ]
+        }
+      ]
+    },
+    "ytd-current": {
+      "period": {
+        "mode": "ytd",
+        "anchor": "2026-10",
+        "from": "2026-05",
+        "to": "2026-10"
+      },
+      "months": [
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04",
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-08",
+        "2026-09",
+        "2026-10"
+      ],
+      "title": "2026 year to date",
+      "sub": "Jan 1 – Oct 21 (today) · 518 transactions",
+      "summary": {
+        "income": "$72,039.84",
+        "spent": "$33,505.85",
+        "budgeted": "$40,600",
+        "net": "+$38,533.99"
+      },
+      "note": "Budgets here are the monthly budgets added up across 10 months, using whatever amount was in effect each month. Switch to Month to edit them.",
+      "editable": false,
+      "categories": [
+        {
+          "name": "Housing",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$18,580.16",
+          "budget": "$19,000",
+          "barWidth": "97.7903%",
+          "barClass": "",
+          "paceLeft": "calc(96.7742% - 1px)",
+          "subs": [
+            [
+              "Rent",
+              "$16,400.00"
+            ],
+            [
+              "Electric",
+              "$1,256.16"
+            ],
+            [
+              "Internet",
+              "$700.00"
+            ],
+            [
+              "Renters Insurance",
+              "$224.00"
+            ]
+          ]
+        },
+        {
+          "name": "Food",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$5,000.15",
+          "budget": "$7,200",
+          "barWidth": "69.4465%",
+          "barClass": "",
+          "paceLeft": "calc(96.6398% - 1px)",
+          "subs": [
+            [
+              "Groceries",
+              "$3,375.37"
+            ],
+            [
+              "Restaurants",
+              "$1,329.03"
+            ],
+            [
+              "Coffee",
+              "$295.75"
+            ]
+          ]
+        },
+        {
+          "name": "Transportation",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$3,139.48",
+          "budget": "$3,800",
+          "barWidth": "82.6179%",
+          "barClass": "",
+          "paceLeft": "calc(96.7742% - 1px)",
+          "subs": [
+            [
+              "Gas",
+              "$1,271.47"
+            ],
+            [
+              "Car Insurance",
+              "$1,280.00"
+            ],
+            [
+              "Maintenance",
+              "$542.01"
+            ],
+            [
+              "Parking",
+              "$46.00"
+            ]
+          ]
+        },
+        {
+          "name": "Health & Fitness",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$2,412.89",
+          "budget": "$2,600",
+          "barWidth": "92.8035%",
+          "barClass": "",
+          "paceLeft": "calc(96.5881% - 1px)",
+          "subs": [
+            [
+              "Gym",
+              "$990.00"
+            ],
+            [
+              "Race Fees",
+              "$325.00"
+            ],
+            [
+              "Running Gear",
+              "$598.58"
+            ],
+            [
+              "Supplements",
+              "$469.31"
+            ],
+            [
+              "Medical",
+              "$30.00"
+            ]
+          ]
+        },
+        {
+          "name": "Subscriptions",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$974.30",
+          "budget": "$1,500",
+          "barWidth": "64.9533%",
+          "barClass": "",
+          "paceLeft": "calc(96.7742% - 1px)",
+          "subs": [
+            [
+              "Software & AI",
+              "$229.90"
+            ],
+            [
+              "Streaming",
+              "$154.90"
+            ],
+            [
+              "Research Tools",
+              "$589.50"
+            ]
+          ]
+        },
+        {
+          "name": "Lifestyle",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$2,132.05",
+          "budget": "$3,500",
+          "barWidth": "60.9157%",
+          "barClass": "",
+          "paceLeft": "calc(96.7742% - 1px)",
+          "subs": [
+            [
+              "Clothing",
+              "$605.67"
+            ],
+            [
+              "Haircuts",
+              "$240.00"
+            ],
+            [
+              "Events",
+              "$361.89"
+            ],
+            [
+              "Travel",
+              "$801.00"
+            ],
+            [
+              "Gifts",
+              "$123.49"
+            ]
+          ]
+        },
+        {
+          "name": "Side Hustles",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$1,266.82",
+          "budget": "$3,000",
+          "barWidth": "42.2273%",
+          "barClass": "",
+          "paceLeft": "calc(96.7742% - 1px)",
+          "subs": [
+            [
+              "Reselling Inventory",
+              "$1,004.88"
+            ],
+            [
+              "YouTube Gear",
+              "$261.94"
+            ]
+          ]
+        }
+      ]
+    },
+    "year-current": {
+      "period": {
+        "mode": "year",
+        "anchor": "2026-10",
+        "from": "2026-05",
+        "to": "2026-10"
+      },
+      "months": [
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04",
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-08",
+        "2026-09",
+        "2026-10",
+        "2026-11",
+        "2026-12"
+      ],
+      "title": "2026",
+      "sub": "Jan 1 – Oct 21 (today) · 518 transactions",
+      "summary": {
+        "income": "$72,039.84",
+        "spent": "$33,505.85",
+        "budgeted": "$48,810",
+        "net": "+$38,533.99"
+      },
+      "note": "Budgets here are the monthly budgets added up across 12 months, using whatever amount was in effect each month. Switch to Month to edit them.",
+      "editable": false,
+      "categories": [
+        {
+          "name": "Housing",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$18,580.16",
+          "budget": "$22,800",
+          "barWidth": "81.4919%",
+          "barClass": "",
+          "paceLeft": "calc(80.6452% - 1px)",
+          "subs": [
+            [
+              "Rent",
+              "$16,400.00"
+            ],
+            [
+              "Electric",
+              "$1,256.16"
+            ],
+            [
+              "Internet",
+              "$700.00"
+            ],
+            [
+              "Renters Insurance",
+              "$224.00"
+            ]
+          ]
+        },
+        {
+          "name": "Food",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$5,000.15",
+          "budget": "$8,700",
+          "barWidth": "57.473%",
+          "barClass": "",
+          "paceLeft": "calc(79.9778% - 1px)",
+          "subs": [
+            [
+              "Groceries",
+              "$3,375.37"
+            ],
+            [
+              "Restaurants",
+              "$1,329.03"
+            ],
+            [
+              "Coffee",
+              "$295.75"
+            ]
+          ]
+        },
+        {
+          "name": "Transportation",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$3,139.48",
+          "budget": "$4,560",
+          "barWidth": "68.8482%",
+          "barClass": "",
+          "paceLeft": "calc(80.6452% - 1px)",
+          "subs": [
+            [
+              "Gas",
+              "$1,271.47"
+            ],
+            [
+              "Car Insurance",
+              "$1,280.00"
+            ],
+            [
+              "Maintenance",
+              "$542.01"
+            ],
+            [
+              "Parking",
+              "$46.00"
+            ]
+          ]
+        },
+        {
+          "name": "Health & Fitness",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$2,412.89",
+          "budget": "$3,150",
+          "barWidth": "76.5997%",
+          "barClass": "",
+          "paceLeft": "calc(79.7235% - 1px)",
+          "subs": [
+            [
+              "Gym",
+              "$990.00"
+            ],
+            [
+              "Race Fees",
+              "$325.00"
+            ],
+            [
+              "Running Gear",
+              "$598.58"
+            ],
+            [
+              "Supplements",
+              "$469.31"
+            ],
+            [
+              "Medical",
+              "$30.00"
+            ]
+          ]
+        },
+        {
+          "name": "Subscriptions",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$974.30",
+          "budget": "$1,800",
+          "barWidth": "54.1278%",
+          "barClass": "",
+          "paceLeft": "calc(80.6452% - 1px)",
+          "subs": [
+            [
+              "Software & AI",
+              "$229.90"
+            ],
+            [
+              "Streaming",
+              "$154.90"
+            ],
+            [
+              "Research Tools",
+              "$589.50"
+            ]
+          ]
+        },
+        {
+          "name": "Lifestyle",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$2,132.05",
+          "budget": "$4,200",
+          "barWidth": "50.7631%",
+          "barClass": "",
+          "paceLeft": "calc(80.6452% - 1px)",
+          "subs": [
+            [
+              "Clothing",
+              "$605.67"
+            ],
+            [
+              "Haircuts",
+              "$240.00"
+            ],
+            [
+              "Events",
+              "$361.89"
+            ],
+            [
+              "Travel",
+              "$801.00"
+            ],
+            [
+              "Gifts",
+              "$123.49"
+            ]
+          ]
+        },
+        {
+          "name": "Side Hustles",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$1,266.82",
+          "budget": "$3,600",
+          "barWidth": "35.1894%",
+          "barClass": "",
+          "paceLeft": "calc(80.6452% - 1px)",
+          "subs": [
+            [
+              "Reselling Inventory",
+              "$1,004.88"
+            ],
+            [
+              "YouTube Gear",
+              "$261.94"
+            ]
+          ]
+        }
+      ]
+    },
+    "year-past-empty": {
+      "period": {
+        "mode": "year",
+        "anchor": "2025-10",
+        "from": "2026-05",
+        "to": "2026-10"
+      },
+      "months": [
+        "2025-01",
+        "2025-02",
+        "2025-03",
+        "2025-04",
+        "2025-05",
+        "2025-06",
+        "2025-07",
+        "2025-08",
+        "2025-09",
+        "2025-10",
+        "2025-11",
+        "2025-12"
+      ],
+      "title": "2025",
+      "sub": "Jan 1 – Dec 31 · 0 transactions",
+      "summary": {
+        "income": "$0.00",
+        "spent": "$0.00",
+        "budgeted": "$0",
+        "net": "+$0.00"
+      },
+      "note": "Budgets here are the monthly budgets added up across 12 months, using whatever amount was in effect each month. Switch to Month to edit them.",
+      "editable": false,
+      "categories": [
+        {
+          "name": "Housing",
+          "status": "ok",
+          "statusLabel": "On budget",
+          "spent": "$0.00",
+          "budget": "$0",
+          "barWidth": "0%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Rent",
+              "$0.00"
+            ],
+            [
+              "Electric",
+              "$0.00"
+            ],
+            [
+              "Internet",
+              "$0.00"
+            ],
+            [
+              "Renters Insurance",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Food",
+          "status": "ok",
+          "statusLabel": "On budget",
+          "spent": "$0.00",
+          "budget": "$0",
+          "barWidth": "0%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Groceries",
+              "$0.00"
+            ],
+            [
+              "Restaurants",
+              "$0.00"
+            ],
+            [
+              "Coffee",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Transportation",
+          "status": "ok",
+          "statusLabel": "On budget",
+          "spent": "$0.00",
+          "budget": "$0",
+          "barWidth": "0%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Gas",
+              "$0.00"
+            ],
+            [
+              "Car Insurance",
+              "$0.00"
+            ],
+            [
+              "Maintenance",
+              "$0.00"
+            ],
+            [
+              "Parking",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Health & Fitness",
+          "status": "ok",
+          "statusLabel": "On budget",
+          "spent": "$0.00",
+          "budget": "$0",
+          "barWidth": "0%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Gym",
+              "$0.00"
+            ],
+            [
+              "Race Fees",
+              "$0.00"
+            ],
+            [
+              "Running Gear",
+              "$0.00"
+            ],
+            [
+              "Supplements",
+              "$0.00"
+            ],
+            [
+              "Medical",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Subscriptions",
+          "status": "ok",
+          "statusLabel": "On budget",
+          "spent": "$0.00",
+          "budget": "$0",
+          "barWidth": "0%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Software & AI",
+              "$0.00"
+            ],
+            [
+              "Streaming",
+              "$0.00"
+            ],
+            [
+              "Research Tools",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Lifestyle",
+          "status": "ok",
+          "statusLabel": "On budget",
+          "spent": "$0.00",
+          "budget": "$0",
+          "barWidth": "0%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Clothing",
+              "$0.00"
+            ],
+            [
+              "Haircuts",
+              "$0.00"
+            ],
+            [
+              "Events",
+              "$0.00"
+            ],
+            [
+              "Travel",
+              "$0.00"
+            ],
+            [
+              "Gifts",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Side Hustles",
+          "status": "ok",
+          "statusLabel": "On budget",
+          "spent": "$0.00",
+          "budget": "$0",
+          "barWidth": "0%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Reselling Inventory",
+              "$0.00"
+            ],
+            [
+              "YouTube Gear",
+              "$0.00"
+            ]
+          ]
+        }
+      ]
+    },
+    "custom-may-oct": {
+      "period": {
+        "mode": "custom",
+        "anchor": "2026-10",
+        "from": "2026-05",
+        "to": "2026-10"
+      },
+      "months": [
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-08",
+        "2026-09",
+        "2026-10"
+      ],
+      "title": "May 2026 – Oct 2026",
+      "sub": "May 1 – Oct 21 (today) · 311 transactions",
+      "summary": {
+        "income": "$43,240.86",
+        "spent": "$20,632.55",
+        "budgeted": "$24,480",
+        "net": "+$22,608.31"
+      },
+      "note": "Budgets here are the monthly budgets added up across 6 months, using whatever amount was in effect each month. Switch to Month to edit them.",
+      "editable": false,
+      "categories": [
+        {
+          "name": "Housing",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$11,096.76",
+          "budget": "$11,400",
+          "barWidth": "97.34%",
+          "barClass": "",
+          "paceLeft": "calc(94.6237% - 1px)",
+          "subs": [
+            [
+              "Rent",
+              "$9,840.00"
+            ],
+            [
+              "Electric",
+              "$724.76"
+            ],
+            [
+              "Internet",
+              "$420.00"
+            ],
+            [
+              "Renters Insurance",
+              "$112.00"
+            ]
+          ]
+        },
+        {
+          "name": "Food",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$2,922.34",
+          "budget": "$4,400",
+          "barWidth": "66.4168%",
+          "barClass": "",
+          "paceLeft": "calc(94.5015% - 1px)",
+          "subs": [
+            [
+              "Groceries",
+              "$1,983.86"
+            ],
+            [
+              "Restaurants",
+              "$762.26"
+            ],
+            [
+              "Coffee",
+              "$176.22"
+            ]
+          ]
+        },
+        {
+          "name": "Transportation",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$2,001.71",
+          "budget": "$2,280",
+          "barWidth": "87.7943%",
+          "barClass": "",
+          "paceLeft": "calc(94.6237% - 1px)",
+          "subs": [
+            [
+              "Gas",
+              "$734.17"
+            ],
+            [
+              "Car Insurance",
+              "$768.00"
+            ],
+            [
+              "Maintenance",
+              "$471.54"
+            ],
+            [
+              "Parking",
+              "$28.00"
+            ]
+          ]
+        },
+        {
+          "name": "Health & Fitness",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$1,570.60",
+          "budget": "$1,600",
+          "barWidth": "98.1625%",
+          "barClass": "",
+          "paceLeft": "calc(94.4556% - 1px)",
+          "subs": [
+            [
+              "Gym",
+              "$594.00"
+            ],
+            [
+              "Race Fees",
+              "$240.00"
+            ],
+            [
+              "Running Gear",
+              "$450.52"
+            ],
+            [
+              "Supplements",
+              "$286.08"
+            ],
+            [
+              "Medical",
+              "$0.00"
+            ]
+          ]
+        },
+        {
+          "name": "Subscriptions",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$584.58",
+          "budget": "$900",
+          "barWidth": "64.9533%",
+          "barClass": "",
+          "paceLeft": "calc(94.6237% - 1px)",
+          "subs": [
+            [
+              "Software & AI",
+              "$137.94"
+            ],
+            [
+              "Streaming",
+              "$92.94"
+            ],
+            [
+              "Research Tools",
+              "$353.70"
+            ]
+          ]
+        },
+        {
+          "name": "Lifestyle",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$1,602.75",
+          "budget": "$2,100",
+          "barWidth": "76.3214%",
+          "barClass": "",
+          "paceLeft": "calc(94.6237% - 1px)",
+          "subs": [
+            [
+              "Clothing",
+              "$306.69"
+            ],
+            [
+              "Haircuts",
+              "$144.00"
+            ],
+            [
+              "Events",
+              "$262.56"
+            ],
+            [
+              "Travel",
+              "$801.00"
+            ],
+            [
+              "Gifts",
+              "$88.50"
+            ]
+          ]
+        },
+        {
+          "name": "Side Hustles",
+          "status": "ok",
+          "statusLabel": "On track",
+          "spent": "$853.81",
+          "budget": "$1,800",
+          "barWidth": "47.4339%",
+          "barClass": "",
+          "paceLeft": "calc(94.6237% - 1px)",
+          "subs": [
+            [
+              "Reselling Inventory",
+              "$720.87"
+            ],
+            [
+              "YouTube Gear",
+              "$132.94"
+            ]
+          ]
+        }
+      ]
+    },
+    "custom-reversed": {
+      "period": {
+        "mode": "custom",
+        "anchor": "2026-10",
+        "from": "2026-09",
+        "to": "2026-02"
+      },
+      "months": [
+        "2026-02",
+        "2026-03",
+        "2026-04",
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-08",
+        "2026-09"
+      ],
+      "title": "Feb 2026 – Sep 2026",
+      "sub": "Feb 1 – Sep 30 · 420 transactions",
+      "summary": {
+        "income": "$57,657.52",
+        "spent": "$27,013.18",
+        "budgeted": "$32,465",
+        "net": "+$30,644.34"
+      },
+      "note": "Budgets here are the monthly budgets added up across 8 months, using whatever amount was in effect each month. Switch to Month to edit them.",
+      "editable": false,
+      "categories": [
+        {
+          "name": "Housing",
+          "status": "ok",
+          "statusLabel": "Under by $417",
+          "spent": "$14,783.45",
+          "budget": "$15,200",
+          "barWidth": "97.2595%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Rent",
+              "$13,120.00"
+            ],
+            [
+              "Electric",
+              "$991.45"
+            ],
+            [
+              "Internet",
+              "$560.00"
+            ],
+            [
+              "Renters Insurance",
+              "$112.00"
+            ]
+          ]
+        },
+        {
+          "name": "Food",
+          "status": "ok",
+          "statusLabel": "Under by $1,700",
+          "spent": "$4,050.03",
+          "budget": "$5,750",
+          "barWidth": "70.4353%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Groceries",
+              "$2,706.85"
+            ],
+            [
+              "Restaurants",
+              "$1,080.23"
+            ],
+            [
+              "Coffee",
+              "$262.95"
+            ]
+          ]
+        },
+        {
+          "name": "Transportation",
+          "status": "ok",
+          "statusLabel": "Under by $460",
+          "spent": "$2,579.86",
+          "budget": "$3,040",
+          "barWidth": "84.8638%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Gas",
+              "$1,057.84"
+            ],
+            [
+              "Car Insurance",
+              "$1,024.00"
+            ],
+            [
+              "Maintenance",
+              "$462.02"
+            ],
+            [
+              "Parking",
+              "$36.00"
+            ]
+          ]
+        },
+        {
+          "name": "Health & Fitness",
+          "status": "ok",
+          "statusLabel": "Under by $200",
+          "spent": "$1,875.23",
+          "budget": "$2,075",
+          "barWidth": "90.3725%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Gym",
+              "$792.00"
+            ],
+            [
+              "Race Fees",
+              "$250.00"
+            ],
+            [
+              "Running Gear",
+              "$433.59"
+            ],
+            [
+              "Supplements",
+              "$369.64"
+            ],
+            [
+              "Medical",
+              "$30.00"
+            ]
+          ]
+        },
+        {
+          "name": "Subscriptions",
+          "status": "ok",
+          "statusLabel": "Under by $421",
+          "spent": "$779.44",
+          "budget": "$1,200",
+          "barWidth": "64.9533%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Software & AI",
+              "$183.92"
+            ],
+            [
+              "Streaming",
+              "$123.92"
+            ],
+            [
+              "Research Tools",
+              "$471.60"
+            ]
+          ]
+        },
+        {
+          "name": "Lifestyle",
+          "status": "ok",
+          "statusLabel": "Under by $970",
+          "spent": "$1,830.34",
+          "budget": "$2,800",
+          "barWidth": "65.3693%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Clothing",
+              "$449.96"
+            ],
+            [
+              "Haircuts",
+              "$192.00"
+            ],
+            [
+              "Events",
+              "$303.89"
+            ],
+            [
+              "Travel",
+              "$801.00"
+            ],
+            [
+              "Gifts",
+              "$83.49"
+            ]
+          ]
+        },
+        {
+          "name": "Side Hustles",
+          "status": "ok",
+          "statusLabel": "Under by $1,285",
+          "spent": "$1,114.83",
+          "budget": "$2,400",
+          "barWidth": "46.4513%",
+          "barClass": "",
+          "paceLeft": null,
+          "subs": [
+            [
+              "Reselling Inventory",
+              "$895.88"
+            ],
+            [
+              "YouTube Gear",
+              "$218.95"
+            ]
+          ]
+        }
+      ]
+    }
+  }
+}

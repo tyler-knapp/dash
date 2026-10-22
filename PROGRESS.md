@@ -96,7 +96,7 @@ Built on the kit's sample data. Phase 1's live Plaid Sandbox check is still open
   - A health banner appears only when the server or database is down.
 
 **Verified**
-- Backend `./gradlew test`: **52 passed, 1 skipped** (the live Plaid test). Ledger tests check API results against counts computed independently from the sample JSON files with the prototype's rules:
+- Backend `./gradlew test`: **51 passed, 1 skipped** (the live Plaid test). *(Corrected in Phase 3: this line first said 52 passed, but 52 was the total including the skipped test.)* Ledger tests check API results against counts computed independently from the sample JSON files with the prototype's rules:
   - month view total, transfers toggle and Transfer category, needs review (42 low-confidence unedited rows minus transfers), search, account and category filters;
   - paging walks every row exactly once, newest first, in ⌈total/150⌉ pages;
   - a day's rows keep file order;
@@ -111,3 +111,40 @@ Built on the kit's sample data. Phase 1's live Plaid Sandbox check is still open
 **Notes**
 - The prototype shows its Budget list and custom-range selects at all times because inline `display` styles override its `hidden` attributes. That's a prototype bug (its tab code clearly means to hide them), so the app doesn't copy it.
 - The summary strip (Income / Spent / Budgeted / Net) comes with `/api/summary` in Phase 3.
+
+## Phase 3 — Budgets and periods ✅ (2026-10-21)
+
+Built on sample data. Phase 1's live Plaid check is still open; Tyler expects to provide Sandbox keys this weekend.
+
+**Built**
+- `BudgetHistory`: the prototype's `budgetFor` / `setBudget` as a small immutable class. A version applies from its month until the next. Editing month M updates M's version, or creates it by copying the amounts in effect for M, and changes only that category.
+- `Pace`: the prototype's `elapsed` and `renderBudget` rules, in the same order: Over by $X (spent > budget + half a cent) → finished periods: On budget (< $1 left) / Under by $X → Not started (future) → Ahead of pace (spent > expected × 1.1 and > 0) → On track. Dollar labels rounded half up with separators, like `toLocaleString`.
+- `GET /api/summary?from&to` → `{income, spent, budgeted, net, transactionCount, uncategorizedCount, periodState, months, today, categories:[{name, spent, budget, expectedToDate, status, statusLabel, subs}]}`. Only spend categories count against budgets and toward Spent; Transfer counts nowhere; uncategorized transactions are counted but not spent; hidden accounts are left out (same as the ledger). "Today" is the New York date from an injected clock.
+- `GET /api/budgets`. `PUT /api/budgets/{month}/{category} {amount}`: spend categories only, amount 0–99,999,999.99 with at most 2 decimals; edits are serialized with a DB lock. A version Tyler edits stops being sample data, so it survives the first real Plaid link.
+- **Frontend:**
+  - Summary strip (Income / Spent / Budgeted / Net cash flow, net green or red).
+  - Budget tab: category cards with status pill, spent-of-budget figures, a progress bar colored by status, the pace marker (current periods only), expandable subcategories, and the prototype's two notes.
+  - The budget input appears in Month view only; it saves on Enter or when you leave the field, and snaps back to the saved value if the save fails.
+  - While a newly picked period loads, the old numbers stay on screen but can't be edited.
+  - The app opens on Budget, as the prototype does. The header's transaction count now comes from the summary. Recategorizing in the Ledger refreshes the budgets.
+- `scripts/prototype-oracle/`: runs the prototype itself in headless Chromium on the sample data, with the clock frozen at 2026-10-21 (New York), and records what it shows for 11 periods: statuses, spent, budgets, bar widths, pace markers, subcategory totals, summary strip, header count. The recording is checked in as a test fixture.
+
+**Verified**
+- Backend `./gradlew test`: **77 passed, 1 skipped** (the live Plaid test). New for Phase 3:
+  - `BudgetHistoryTest`, pure unit tests on the sample budgets:
+    - **editing October doesn't change September** (or July), and October's new version copies the other six amounts;
+    - editing a month with a version changes only that category;
+    - editing August after October leaves October's version alone;
+    - **YTD budget sums the version in effect each month** (Food 6×700 + 4×750 = 7,200; Health & Fitness 6×250 + 4×275 = 2,600).
+  - `PaceTest`: elapsed, period state, every status label including edge cases (within half a cent, under by less than $1, over in a future period), dollar rounding.
+  - `BudgetMatchesPrototypeTest`: for **all 11 recorded periods** (current, past and July months; past and current quarter; YTD; year; empty 2025; two custom ranges, one entered backwards), `/api/summary` reproduces **exactly** what the prototype shows: strip figures, header count, every category's status class and label, spent, budget, bar width, pace marker position (present only when it should be) and subcategory totals. To check the test has teeth, I changed the "ahead of pace" factor from 1.1 to 1.2; the test failed on the two current periods, then I reverted it.
+  - `BudgetApiTest`: editing October via the API leaves September and June alone; a second edit reuses October's version; edited versions survive clearing sample data; bad month, non-spend category, unknown category, negative or 3-decimal amounts and missing body are rejected with nothing changed; "Health & Fitness" works in the URL; hidden accounts drop out of Spent; future periods say Not started; uncategorized rows count toward the transaction count but not Spent.
+- Frontend: lint, typecheck, **33/33 tests** (Budget tab: pills, figures, bar width and pace position matching the prototype's numbers, expand, edit commits once on Enter/blur for the right month and skips unchanged values, read-only multi-month view with its note and no pace marker, loading/error; summary strip formatting and colors; shell opens on Budget and shows the strip), production build. `make test` passes.
+- **In headless Chromium** (backend and production frontend bundle run on the host because Docker Hub rate-limited image builds here; see notes):
+  - Changed October's Food budget 750 → 900 in the Budget tab: PUT 200, Budgeted went $4,105 → $4,255, **still 900 after a page reload**, and **September still showed 750** with Budgeted $4,105.
+  - Compared with the prototype on the same data and day, at **980px and 400px**: Month, Quarter, YTD and Year views are **identical**: title, all four strip figures, and every category's status, spent and budget.
+  - **At 400px every category row wraps the prototype's way** (name and pill on one line, figures on their own line below), with no horizontal scroll. Side-by-side images: `docs/screenshots/phase3-budget-vs-prototype-desktop.png` and `…-400px.png` (app on the left).
+
+**Notes**
+- `docker compose up --build` couldn't be re-run at the end of this phase: Docker Hub answered 429 Too Many Requests when this sandbox tried to pull the JRE and Node base images. No Dockerfile or compose change was made in Phase 3, and CI (`make test`) doesn't use those images.
+- Uncategorized transactions (real Plaid data before Phase 4) are left out of Spent; the summary reports how many there are as `uncategorizedCount` for later use in the UI.
