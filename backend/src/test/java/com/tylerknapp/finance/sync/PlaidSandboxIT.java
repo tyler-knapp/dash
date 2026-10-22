@@ -35,6 +35,7 @@ class PlaidSandboxIT extends PostgresTestBase {
     @Autowired SyncService sync;
     @Autowired TokenCipherProvider cipher;
     @Autowired JdbcTemplate jdbc;
+    @Autowired com.tylerknapp.finance.categorize.TaxonomyRepository taxonomy;
 
     @BeforeEach
     void guard() {
@@ -69,6 +70,14 @@ class PlaidSandboxIT extends PostgresTestBase {
         BigDecimal stored = jdbc.queryForObject(
                 "select amount from transaction where plaid_transaction_id = ?", BigDecimal.class, raw.transactionId());
         assertThat(stored).isEqualByComparingTo(raw.amount().negate());
+
+        // Phase 4: every Sandbox transaction has a valid category, and card payments never count as spending.
+        var tax = taxonomy.load();
+        assertThat(jdbc.queryForList("select category, subcategory from transaction")).allSatisfy(r ->
+                assertThat(tax.isValid((String) r.get("category"), (String) r.get("subcategory"))).as(r.toString()).isTrue());
+        assertThat(jdbc.queryForObject("""
+                select count(*) from transaction where plaid_pfc_detailed like '%CREDIT_CARD_PAYMENT%'
+                  and (category <> 'Transfer' or subcategory <> 'Card Payment')""", Integer.class)).isZero();
 
         // Second sync is incremental: resumes from the saved cursor and adds nothing new.
         String cursor = jdbc.queryForObject("select sync_cursor from item where id = ?", String.class, itemId);

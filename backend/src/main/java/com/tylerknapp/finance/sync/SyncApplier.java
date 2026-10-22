@@ -58,15 +58,15 @@ public class SyncApplier {
     public Counts apply(UUID itemId, List<PlaidGateway.Account> plaidAccounts, Map<String, BigDecimal> holdings,
                         FetchedTxns fetched, LocalDate today) {
         Map<String, UUID> accountIds = new HashMap<>();
-        Map<String, String> accountNames = new HashMap<>();
+        Map<String, PlaidGateway.Account> accountsById = new HashMap<>();
         for (PlaidGateway.Account a : plaidAccounts) {
             accountIds.put(a.plaidAccountId(), accounts.upsertFromPlaid(itemId, a));
-            accountNames.put(a.plaidAccountId(), a.name());
+            accountsById.put(a.plaidAccountId(), a);
         }
 
         Counts counts = new Counts(0, 0, 0);
         if (fetched != null) {
-            counts = applyTransactions(fetched, accountIds, accountNames);
+            counts = applyTransactions(fetched, accountIds, accountsById);
             items.saveCursor(itemId, fetched.nextCursor(), fetched.updateStatus());
         }
 
@@ -82,7 +82,7 @@ public class SyncApplier {
         return counts;
     }
 
-    private Counts applyTransactions(FetchedTxns f, Map<String, UUID> accountIds, Map<String, String> accountNames) {
+    private Counts applyTransactions(FetchedTxns f, Map<String, UUID> accountIds, Map<String, PlaidGateway.Account> accountsById) {
         // Later pages win if Plaid repeats an id.
         Map<String, PlaidGateway.Txn> added = new LinkedHashMap<>();
         f.added().forEach(t -> added.put(t.transactionId(), t));
@@ -102,10 +102,11 @@ public class SyncApplier {
                     : txns.findCategory(t.pendingTransactionId()).filter(c -> c.category() != null).orElse(null);
             if (fromPending != null) {
                 carried.put(t.transactionId(), fromPending);
-            } else if (t.amount() != null) {
+            } else if (t.amount() != null && t.date() != null && accountIds.containsKey(t.accountId())) {
+                PlaidGateway.Account acct = accountsById.get(t.accountId());
                 toCategorize.add(new Categorizer.Candidate(t.transactionId(), t.merchantName(), t.name(),
-                        Money.txnFromPlaid(t.amount()), accountNames.get(t.accountId()), t.pfcPrimary(),
-                        t.pfcDetailed(), t.pfcConfidence()));
+                        Money.txnFromPlaid(t.amount()), t.date(), accountIds.get(t.accountId()), acct.name(), acct.type(),
+                        AccountRepository.roleFor(acct.type()), t.pfcPrimary(), t.pfcDetailed(), t.pfcConfidence()));
             }
         }
         Map<String, Categorizer.Assignment> assigned =

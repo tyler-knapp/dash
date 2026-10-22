@@ -24,6 +24,7 @@ Personal finance app for one user (Tyler). Read `SPEC.md` before any work; it is
 - All tests (what CI runs): `make test` (needs Docker for Testcontainers)
 - Backend tests: `cd backend && ./gradlew test` (Plaid is faked; real-Sandbox test is skipped)
 - Real Plaid Sandbox test: `cd backend && PLAID_SANDBOX_IT=true PLAID_ENV=sandbox PLAID_CLIENT_ID=… PLAID_SECRET=… ./gradlew test --tests '*PlaidSandboxIT'`
+- Live Claude categorization test: `cd backend && ANTHROPIC_IT=true ANTHROPIC_API_KEY=… ./gradlew test --tests '*ClaudeCategorizerIT'`
 - Backend dev (db in docker, app on :8081): `make dev-backend`
 - Frontend dev server: `cd frontend && npm run dev` (proxies /api to :8081)
 - Frontend tests: `cd frontend && npm test` (also `npm run lint`, `npm run typecheck`)

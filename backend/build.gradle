@@ -27,6 +27,8 @@ dependencies {
 
     // Official Plaid client (version checked on Maven Central, 2026-10-21)
     implementation 'com.plaid:plaid-java:47.0.0'
+    // Official Anthropic SDK (3.1.0 is the latest on Maven Central, 2026-10-22; sends API version 2026-10-21)
+    implementation 'com.anthropic:anthropic-java:3.1.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
