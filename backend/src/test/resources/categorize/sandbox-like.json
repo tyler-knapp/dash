@@ -1,0 +1,34 @@
+{
+  "_note": "Modeled on Plaid Sandbox's default user (First Platypus Bank) from memory, plus v2-style names seen in Plaid's API spec. NOT a recording of real Sandbox output; PlaidSandboxIT checks the real thing once keys exist. plaidAmount uses Plaid's sign (positive = money out).",
+  "accounts": [
+    {"id": "chk", "name": "Plaid Checking", "type": "depository", "subtype": "checking", "current": "110.00"},
+    {"id": "sav", "name": "Plaid Saving", "type": "depository", "subtype": "savings", "current": "210.00"},
+    {"id": "cc", "name": "Plaid Credit Card", "type": "credit", "subtype": "credit card", "current": "410.00"}
+  ],
+  "transactions": [
+    {"id": "s01", "account": "cc", "date": "2026-10-01", "name": "Uber 072515 SF**POOL**", "merchant": "Uber", "plaidAmount": "6.33", "pfc": ["TRANSPORTATION", "TRANSPORTATION_TAXIS_AND_RIDE_SHARES", "VERY_HIGH"]},
+    {"id": "s02", "account": "cc", "date": "2026-10-01", "name": "Tectra Inc", "merchant": null, "plaidAmount": "500.00", "pfc": ["GENERAL_SERVICES", "GENERAL_SERVICES_OTHER_GENERAL_SERVICES", "LOW"]},
+    {"id": "s03", "account": "cc", "date": "2026-10-02", "name": "AUTOMATIC PAYMENT - THANK", "merchant": null, "plaidAmount": "-2078.50", "pfc": ["LOAN_PAYMENTS", "LOAN_PAYMENTS_CREDIT_CARD_PAYMENT", "VERY_HIGH"], "cardPayment": true},
+    {"id": "s04", "account": "cc", "date": "2026-10-02", "name": "KFC", "merchant": "KFC", "plaidAmount": "500.00", "pfc": ["FOOD_AND_DRINK", "FOOD_AND_DRINK_FAST_FOOD", "VERY_HIGH"]},
+    {"id": "s05", "account": "cc", "date": "2026-10-03", "name": "Madison Bicycle Shop", "merchant": "Madison Bicycle Shop", "plaidAmount": "500.00", "pfc": ["GENERAL_MERCHANDISE", "GENERAL_MERCHANDISE_SPORTING_GOODS", "VERY_HIGH"]},
+    {"id": "s06", "account": "chk", "date": "2026-10-03", "name": "CREDIT CARD 3333 PAYMENT *//", "merchant": null, "plaidAmount": "25.00", "pfc": ["LOAN_PAYMENTS", "LOAN_PAYMENTS_CREDIT_CARD_PAYMENT", "VERY_HIGH"], "cardPayment": true},
+    {"id": "s07", "account": "chk", "date": "2026-10-04", "name": "ACH Electronic CreditGUSTO PAY 123456", "merchant": null, "plaidAmount": "-5850.00", "pfc": ["INCOME", "INCOME_WAGES", "VERY_HIGH"]},
+    {"id": "s08", "account": "chk", "date": "2026-10-04", "name": "CD DEPOSIT .INITIAL.", "merchant": null, "plaidAmount": "1000.00", "pfc": ["TRANSFER_OUT", "TRANSFER_OUT_ACCOUNT_TRANSFER", "MEDIUM"]},
+    {"id": "s09", "account": "cc", "date": "2026-10-05", "name": "Touchstone Climbing", "merchant": "Touchstone Climbing", "plaidAmount": "78.50", "pfc": ["PERSONAL_CARE", "PERSONAL_CARE_GYMS_AND_FITNESS_CENTERS", "VERY_HIGH"]},
+    {"id": "s10", "account": "cc", "date": "2026-10-05", "name": "United Airlines", "merchant": "United Airlines", "plaidAmount": "-500.00", "pfc": ["TRAVEL", "TRAVEL_FLIGHTS", "VERY_HIGH"]},
+    {"id": "s11", "account": "cc", "date": "2026-10-06", "name": "McDonald's", "merchant": "McDonald's", "plaidAmount": "12.00", "pfc": ["FOOD_AND_DRINK", "FOOD_AND_DRINK_FAST_FOOD", "VERY_HIGH"]},
+    {"id": "s12", "account": "cc", "date": "2026-10-06", "name": "Starbucks", "merchant": "Starbucks", "plaidAmount": "4.33", "pfc": ["FOOD_AND_DRINK", "FOOD_AND_DRINK_COFFEE", "VERY_HIGH"]},
+    {"id": "s13", "account": "cc", "date": "2026-10-07", "name": "SparkFun", "merchant": "SparkFun", "plaidAmount": "89.40", "pfc": ["GENERAL_MERCHANDISE", "GENERAL_MERCHANDISE_ELECTRONICS", "HIGH"]},
+    {"id": "s14", "account": "sav", "date": "2026-10-07", "name": "INTRST PYMNT", "merchant": null, "plaidAmount": "-4.22", "pfc": ["INCOME", "INCOME_INTEREST_EARNED", "VERY_HIGH"]},
+    {"id": "s15", "account": "chk", "date": "2026-10-08", "name": "Venmo payment", "merchant": "Venmo", "plaidAmount": "40.00", "pfc": ["TRANSFER_OUT", "TRANSFER_OUT_ACCOUNT_TRANSFER", "HIGH"]},
+    {"id": "s16", "account": "cc", "date": "2026-10-08", "name": "KROGER #512 POLARIS", "merchant": "Kroger", "plaidAmount": "118.42", "pfc": ["FOOD_AND_DRINK", "FOOD_AND_DRINK_GROCERIES", "VERY_HIGH"]},
+    {"id": "s17", "account": "cc", "date": "2026-10-09", "name": "TARGET 00012345", "merchant": "Target", "plaidAmount": "37.80", "pfc": ["GENERAL_MERCHANDISE", "GENERAL_MERCHANDISE_SUPERSTORES", "VERY_HIGH"]},
+    {"id": "s18", "account": "chk", "date": "2026-10-09", "name": "AEP OHIO BILL PAY", "merchant": "AEP Ohio", "plaidAmount": "96.31", "pfc": ["RENT_AND_UTILITIES", "RENT_AND_UTILITIES_GAS_AND_ELECTRICITY", "UNKNOWN"]},
+    {"id": "s19", "account": "chk", "date": "2026-10-10", "name": "Transfer to savings", "merchant": null, "plaidAmount": "500.00", "pfc": ["TRANSFER_OUT", "TRANSFER_OUT_ACCOUNT_TRANSFER", "HIGH"]},
+    {"id": "s20", "account": "sav", "date": "2026-10-10", "name": "Transfer from checking", "merchant": null, "plaidAmount": "-500.00", "pfc": ["TRANSFER_IN", "TRANSFER_IN_ACCOUNT_TRANSFER", "HIGH"]},
+    {"id": "s21", "account": "chk", "date": "2026-10-11", "name": "PLAID CC ONLINE PMT", "merchant": null, "plaidAmount": "412.66", "pfc": ["GENERAL_SERVICES", "GENERAL_SERVICES_OTHER_GENERAL_SERVICES", "LOW"], "cardPayment": true},
+    {"id": "s22", "account": "cc", "date": "2026-10-12", "name": "ONLINE PAYMENT RECEIVED", "merchant": null, "plaidAmount": "-412.66", "pfc": ["GENERAL_SERVICES", "GENERAL_SERVICES_OTHER_GENERAL_SERVICES", "LOW"], "cardPayment": true},
+    {"id": "s23", "account": "chk", "date": "2026-10-13", "name": "WEB XFER 8834", "merchant": null, "plaidAmount": "300.00", "pfc": ["GENERAL_SERVICES", "GENERAL_SERVICES_OTHER_GENERAL_SERVICES", "LOW"], "pairedTransfer": true},
+    {"id": "s24", "account": "sav", "date": "2026-10-14", "name": "ACH CREDIT 8834", "merchant": null, "plaidAmount": "-300.00", "pfc": ["GENERAL_SERVICES", "GENERAL_SERVICES_OTHER_GENERAL_SERVICES", "LOW"], "pairedTransfer": true}
+  ]
+}
