@@ -27,3 +27,4 @@ Personal finance app for one user (Tyler). Read `SPEC.md` before any work; it is
 - Backend dev (db in docker, app on :8081): `make dev-backend`
 - Frontend dev server: `cd frontend && npm run dev` (proxies /api to :8081)
 - Frontend tests: `cd frontend && npm test` (also `npm run lint`, `npm run typecheck`)
+- Re-record the prototype's budget view as test fixtures (only if the prototype or sample data changes): `cd scripts/prototype-oracle && npm install && npm run capture`
