@@ -3,11 +3,13 @@ import { AccountsView } from './accounts/AccountsView'
 import { fetchSummary, setBudget, type Summary } from './api/budget'
 import { fetchAccounts, fetchCategories, type Account, type Category } from './api/ledger'
 import { fetchHealth, type Health } from './api/health'
+import { fetchNetWorth, type NetWorth } from './api/networth'
 import { BudgetView } from './budget/BudgetView'
 import { PeriodBar } from './components/PeriodBar'
 import { SummaryStrip } from './components/SummaryStrip'
 import { Toast } from './components/Toast'
 import { LedgerView } from './ledger/LedgerView'
+import { NetWorthView } from './networth/NetWorthView'
 import { periodMonths, periodTitle, spanLabel, todayInNewYork, type Period } from './period'
 import { loadViewState, saveViewState, type Tab } from './viewState'
 
@@ -20,6 +22,7 @@ const TAB_LABELS: [Tab, string][] = [
 
 type HealthState = { kind: 'loading' } | { kind: 'ok'; health: Health } | { kind: 'error'; message: string }
 type SummaryState = { kind: 'loading' } | { kind: 'ok'; summary: Summary } | { kind: 'error' }
+type NetWorthState = { kind: 'loading' } | { kind: 'ok'; nw: NetWorth } | { kind: 'error' }
 
 /** Layout from the prototype: eyebrow, period title + span, badge, period bar, summary strip, tabs. */
 export default function App() {
@@ -32,6 +35,8 @@ export default function App() {
   const [categories, setCategories] = useState<Category[]>([])
   const [summary, setSummary] = useState<SummaryState>({ kind: 'loading' })
   const [summaryKey, setSummaryKey] = useState(0)
+  const [netWorth, setNetWorth] = useState<NetWorthState>({ kind: 'loading' })
+  const [netWorthKey, setNetWorthKey] = useState(0)
   const [toast, setToast] = useState<string | null>(null)
 
   const months = periodMonths(period, today)
@@ -67,10 +72,24 @@ export default function App() {
     }
   }, [from, to, summaryKey])
 
+  // Net worth ignores the period; fetched when its tab is shown and after account changes.
+  useEffect(() => {
+    if (tab !== 'networth') return
+    let live = true
+    fetchNetWorth().then(
+      (nw) => live && setNetWorth({ kind: 'ok', nw }),
+      () => live && setNetWorth({ kind: 'error' }),
+    )
+    return () => {
+      live = false
+    }
+  }, [tab, netWorthKey])
+
   const refreshSummary = useCallback(() => setSummaryKey((k) => k + 1), [])
   const refreshAccounts = useCallback(() => {
     fetchAccounts().then(setAccounts, () => {})
     setSummaryKey((k) => k + 1)
+    setNetWorthKey((k) => k + 1)
   }, [])
 
   const onSetBudget = useCallback((month: string, category: string, amount: number) => {
@@ -130,7 +149,7 @@ export default function App() {
           onChanged={refreshSummary}
         />
       )}
-      {tab === 'networth' && <div className="banner">Net worth arrives in a later build phase.</div>}
+      {tab === 'networth' && <NetWorthView load={netWorth} onRetry={() => setNetWorthKey((k) => k + 1)} />}
       {tab === 'accounts' && <AccountsView onChanged={refreshAccounts} />}
 
       <Toast message={toast} onDone={clearToast} />

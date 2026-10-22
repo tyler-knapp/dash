@@ -1,0 +1,107 @@
+{
+  "today": "2026-10-21",
+  "source": "reference/prototype.html",
+  "summary": [
+    [
+      "Net worth",
+      "$176,961"
+    ],
+    [
+      "Cash minus card balances",
+      "$44,434"
+    ]
+  ],
+  "groups": [
+    {
+      "title": "Cash & savings",
+      "total": "$45,612.13",
+      "rows": [
+        {
+          "name": "Huntington Checking",
+          "meta": "Checking",
+          "amount": "$4,218.40",
+          "negative": false
+        },
+        {
+          "name": "Fifth Third Checking",
+          "meta": "Checking",
+          "amount": "$6,912.77",
+          "negative": false
+        },
+        {
+          "name": "SoFi Checking",
+          "meta": "Checking",
+          "amount": "$1,386.10",
+          "negative": false
+        },
+        {
+          "name": "Fifth Third Savings",
+          "meta": "Savings",
+          "amount": "$3,250.00",
+          "negative": false
+        },
+        {
+          "name": "SoFi Savings",
+          "meta": "Savings",
+          "amount": "$18,640.55",
+          "negative": false
+        },
+        {
+          "name": "Vanguard Money Market",
+          "meta": "Money market",
+          "amount": "$11,204.31",
+          "negative": false
+        }
+      ]
+    },
+    {
+      "title": "Credit cards",
+      "total": "−$1,178.12",
+      "rows": [
+        {
+          "name": "Huntington Voice Rewards",
+          "meta": "Credit card",
+          "amount": "−$412.66",
+          "negative": true
+        },
+        {
+          "name": "American Express",
+          "meta": "Credit card",
+          "amount": "−$187.43",
+          "negative": true
+        },
+        {
+          "name": "Capital One",
+          "meta": "Credit card",
+          "amount": "−$578.03",
+          "negative": true
+        }
+      ]
+    },
+    {
+      "title": "Retirement",
+      "total": "$132,527.00",
+      "rows": [
+        {
+          "name": "Vanguard Roth IRA",
+          "meta": "Retirement · linked",
+          "amount": "$48,210.00",
+          "negative": false
+        },
+        {
+          "name": "Empower 401(k)",
+          "meta": "Retirement · linked",
+          "amount": "$61,377.00",
+          "negative": false
+        },
+        {
+          "name": "Fidelity 401(k) · former employer",
+          "meta": "Manual · updated Oct 1",
+          "amount": "$22,940.00",
+          "negative": false
+        }
+      ]
+    }
+  ],
+  "note": "Balances as of Oct 20, 2026. Net worth is always current and doesn't follow the period picker. Retirement accounts show balances only; their trades stay out of the ledger."
+}

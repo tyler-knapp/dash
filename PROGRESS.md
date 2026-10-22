@@ -187,3 +187,31 @@ Built on sample data. Phase 1's live Plaid check is still open; Tyler expects to
 **Notes**
 - Cost estimate with Claude Opus 5.5 at low effort: roughly a cent per batch of 50; the first two-year history pull is maybe 30 batches. Steady state is a few calls a month.
 - Categorization runs inside the sync's database transaction, so the model calls during a large first sync keep that transaction open longer; fine for one user.
+
+## Phase 5 — Net worth and manual accounts ✅ (2026-10-22)
+
+Built and verified on sample data. Phase 1's live Plaid check, and the live parts of Phase 4, still wait on keys.
+
+**Built**
+- `GET /api/networth`: each visible account's most recent balance, grouped the prototype's way (Cash & savings / Credit cards / Retirement, plus Other for loans and other assets). Totals: net worth and cash minus card balances (everything except Retirement). Within a group: checking, savings, money market, then the order accounts were added (migration V6 makes `created_at` reflect that order). "Balances as of" is the newest bank-fetched balance. Hidden accounts are left out; accounts with no balance yet are listed separately and don't count.
+- `POST /api/accounts/manual {name, type, subtype?, role?}` (type: depository / credit / investment / loan / other; role defaults to balance-only). `POST /api/accounts/{id}/balance {asOf, current}` for manual accounts only, in app sign: what you owe is negative. One entry per day; the date can't be in the future (New York) or before 1990. `PATCH /api/accounts/{id} {name?, displayColor?, hidden?}` for any account. Hidden accounts drop out of the ledger, budgets and net worth.
+- **Frontend:**
+  - **Net worth tab**, ported from the prototype: the two totals, groups with totals, rows with "Manual · updated Oct 1" / "Retirement · linked" / kind meta lines, negative balances in red, the prototype's note, plus a "No balance yet" group. Loading, empty and error states.
+  - **Accounts screen:** linked institutions with status, last sync, Reconnect, Sync now, Link (bank or retirement); "Add manual account" (name, type, optional starting balance and date); per account Edit (rename, pick a color, hide) and, for manual accounts, Update balance. Cards and loans ask for "Amount owed" as a positive number and store it negative. Sample accounts appear in their own group with a note that they're removed on the first real link.
+
+**Verified**
+- Backend `./gradlew test`: **106 passed, 2 skipped** (live Plaid and live Claude tests).
+  - `NetWorthMatchesPrototypeTest`: on the sample data, `/api/networth` reproduces the prototype's Net worth tab exactly (recorded with `scripts/prototype-oracle`): $176,961 and $44,434, the "as of Oct 20, 2026" date, each group's total, and every row's name, meta line, amount and sign, in the same order.
+  - `NetWorthApiTest`:
+    - **totals equal the sum of the latest snapshots**, computed independently in SQL with `distinct on`, with older snapshots present for several accounts, a manual asset and loan, and an account with no balance; group totals add up; cash minus cards = total − retirement; hiding an account removes it and the totals still match SQL;
+    - **a manual account shows its updated date** (Oct 1, then Oct 20 after a newer entry; a same-day entry replaces the old one);
+    - manual-balance rules (future date, 1980, 3 decimals, bad date, linked account → 400; unknown → 404) and create/patch validation (bad type, blank name, bad color → 400; trimming; rename/hide on sample accounts; the ledger respects hidden).
+- Frontend: lint, typecheck, **40/40 tests** (Net worth: prototype formatting, meta lines, red negatives, note, no-balance group, states; Accounts: list, link, reconnect, add manual account with a starting balance, "amount owed" stored negative, rename/recolor/hide, sample group, sync and not-configured messages; shell: Net worth tab loads). `make test` passes.
+- **`docker compose up --build` + `make smoke`** (Docker Hub allowed the pulls this time), then headless Chromium:
+  - Net worth tab next to the prototype at **980px and 400px**: **identical** totals, groups, rows, meta lines and note; no horizontal scroll.
+  - Added "Old 401(k)" through the Accounts screen with $12,345.67 as of Oct 15: the Net worth tab showed **"Manual · updated Oct 15"**, still after a reload. **The total matched the database's sum of latest snapshots** before ($176,961.01), after adding (+$12,345.67) and after hiding Capital One (+$578.03).
+  - Screenshots: `docs/screenshots/phase5-networth-vs-prototype-desktop.png`, `…-400px.png`, `phase5-accounts-400px.png`.
+
+**Notes**
+- Net worth history (`/api/networth/history`) and its chart are Phase 7, per the spec.
+- Manual accounts are balance-only; there's no manual transaction entry (not in the spec).

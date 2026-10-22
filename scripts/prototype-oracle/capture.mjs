@@ -1,7 +1,7 @@
 // Runs the approved prototype (reference/prototype.html) in headless Chromium on the kit's
 // sample data, with the clock frozen, and records what its Budget view and summary strip show
-// for a set of periods. The JSON goes to backend/src/test/resources/prototype-oracle/, where
-// BudgetMatchesPrototypeTest checks /api/summary against it.
+// for a set of periods, plus its Net worth tab. The JSON goes to backend/src/test/resources/prototype-oracle/,
+// where BudgetMatchesPrototypeTest and NetWorthMatchesPrototypeTest check the API against it.
 //
 //   cd scripts/prototype-oracle && npm install && npm run capture
 //   (set CHROMIUM_PATH if Playwright's bundled browser isn't installed)
@@ -86,6 +86,36 @@ for (const [name, p] of SCENARIOS) {
   result.scenarios[name] = { period, ...data }
   await page.close()
 }
+// Net worth tab (doesn't depend on the period).
+{
+  const page = await ctx.newPage()
+  await page.clock.setFixedTime(new Date(`${TODAY}T12:00:00-04:00`))
+  await page.route('http://proto.local/', (r) => r.fulfill({ contentType: 'text/html; charset=utf-8', body: html }))
+  await page.goto('http://proto.local/')
+  await page.waitForSelector('.cat')
+  await page.getByRole('tab', { name: 'Net worth' }).click()
+  await page.waitForSelector('#view-networth .group')
+  const nw = await page.evaluate(() => {
+    const v = document.getElementById('view-networth')
+    return {
+      summary: [...v.querySelectorAll('.summary > div')].map((d) => [d.querySelector('.lbl').textContent, d.querySelector('.big').textContent]),
+      groups: [...v.querySelectorAll('.group')].map((g) => ({
+        title: g.querySelector('h2 span:first-child').textContent,
+        total: g.querySelector('h2 span.num').textContent,
+        rows: [...g.querySelectorAll('.arow')].map((r) => ({
+          name: r.firstElementChild.firstElementChild.textContent,
+          meta: r.querySelector('.meta').textContent,
+          amount: r.querySelector('.num').textContent,
+          negative: r.querySelector('.num').classList.contains('neg'),
+        })),
+      })),
+      note: v.querySelector('.note').textContent,
+    }
+  })
+  writeFileSync(out.replace('budget-', 'networth-'), JSON.stringify({ today: TODAY, source: 'reference/prototype.html', ...nw }, null, 2) + '\n')
+  await page.close()
+}
+
 await browser.close()
 writeFileSync(out, JSON.stringify(result, null, 2) + '\n')
-console.log('wrote', out, Object.keys(result.scenarios).length, 'scenarios')
+console.log('wrote', out, Object.keys(result.scenarios).length, 'scenarios, plus the net worth view')
