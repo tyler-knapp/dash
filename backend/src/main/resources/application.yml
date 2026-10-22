@@ -15,6 +15,12 @@ spring:
     # Spring cron (sec min hour day month weekday), in America/New_York: 00:00, 06:00, 12:00, 18:00.
     cron: ${SYNC_CRON:0 0 */6 * * *}
     follow-up-delays: 15s, 30s, 1m, 2m, 4m, 8m, 15m
+  ai:
+    # Model for the categorization step (SPEC §7 step 4). Runs at low effort; batches of up to 50.
+    model: ${AI_MODEL:claude-opus-5-5}
+    batch-size: 50
+    # Let the API retry a declined request on a fallback model (beta server-side-fallback-2026-07-01).
+    server-fallbacks: ${AI_SERVER_FALLBACKS:true}
   sample-data:
     # Dev only. Removed automatically when the first real institution is linked.
     enabled: ${SAMPLE_DATA:false}
@@ -43,6 +49,12 @@ app:
     # Spring cron (sec min hour day month weekday), in America/New_York: 00:00, 06:00, 12:00, 18:00.
     cron: ${SYNC_CRON:0 0 */6 * * *}
     follow-up-delays: 15s, 30s, 1m, 2m, 4m, 8m, 15m
+  ai:
+    # Model for the categorization step (SPEC §7 step 4). Runs at low effort; batches of up to 50.
+    model: ${AI_MODEL:claude-opus-5-5}
+    batch-size: 50
+    # Let the API retry a declined request on a fallback model (beta server-side-fallback-2026-07-01).
+    server-fallbacks: ${AI_SERVER_FALLBACKS:true}
   sample-data:
     # Dev only. Removed automatically when the first real institution is linked.
     enabled: ${SAMPLE_DATA:false}
