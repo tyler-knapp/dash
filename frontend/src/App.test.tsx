@@ -21,6 +21,8 @@ function api(over: Record<string, Parameters<typeof mockApi>[0][string]> = {}) {
     },
     'PUT /api/budgets/*': () => ({ body: {} }),
     'GET /api/items': () => ({ body: [] }),
+    'GET /api/networth': () => ({ body: { total: 1000, cashMinusCards: 400, asOf: '2026-10-20', withoutBalance: [],
+      groups: [{ name: 'Cash & savings', total: 1000, accounts: [] }] } }),
     ...over,
   })
 }
@@ -62,7 +64,14 @@ describe('App shell', () => {
     render(<App />)
     expect(screen.getByRole('heading', { name: 'Q3 2026' })).toBeInTheDocument()
     expect(screen.getByRole('tab', { name: 'Accounts' })).toHaveAttribute('aria-selected', 'true')
-    await screen.findByText(/No accounts linked yet/)
+    await screen.findByText(/removed automatically when you link your first real account/) // sample account group
+  })
+
+  it('Net worth tab loads when opened', async () => {
+    api()
+    render(<App />)
+    fireEvent.click(screen.getByRole('tab', { name: 'Net worth' }))
+    expect(await screen.findByText('$1,000')).toBeInTheDocument()
   })
 
   it('custom range shows from/to selects', () => {

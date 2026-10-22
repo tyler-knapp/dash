@@ -44,6 +44,7 @@ export interface Category {
 
 export interface Account {
   id: string
+  itemId: string | null
   name: string
   institutionName: string | null
   mask: string | null

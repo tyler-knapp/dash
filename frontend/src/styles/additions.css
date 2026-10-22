@@ -16,3 +16,22 @@
 .empty .btn{margin-left:8px}
 nav{overflow-x:auto;scrollbar-width:none}
 nav button{white-space:nowrap}
+/* Accounts screen rows and inline forms */
+.acctrow{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.acctline{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start}
+.acctline .acct{min-width:0;overflow-wrap:anywhere}
+.acct-right{display:grid;justify-items:end;gap:2px;text-align:right}
+.acct-actions{display:flex;gap:10px}
+.linkbtn{background:none;border:0;padding:0;font:600 .78rem var(--f-display);color:var(--accent);cursor:pointer}
+.is-hidden .acct{opacity:.55}
+.inline-form{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.group-form{background:var(--surface)}
+.inline-form label{display:grid;gap:3px;font-size:.78rem;color:var(--muted);font-weight:600}
+.inline-form label.chk{display:flex;font-weight:400;font-size:.82rem}
+.inline-form input:not([type=checkbox]),.inline-form select{font:inherit;font-size:.88rem;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:0}
+.inline-form input[inputmode=decimal]{font-family:var(--f-mono);width:120px}
+.swatches{display:flex;gap:6px;border:0;padding:0;margin:0;align-items:center}
+.swatches legend{font-size:.78rem;color:var(--muted);font-weight:600;float:left;margin-right:6px}
+.swatch{width:22px;height:22px;border-radius:6px;border:2px solid transparent;cursor:pointer}
+.swatch[aria-pressed="true"]{border-color:var(--ink)}
+.form-actions{display:flex;gap:6px}
