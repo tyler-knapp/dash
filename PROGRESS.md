@@ -215,3 +215,24 @@ Built and verified on sample data. Phase 1's live Plaid check, and the live part
 **Notes**
 - Net worth history (`/api/networth/history`) and its chart are Phase 7, per the spec.
 - Manual accounts are balance-only; there's no manual transaction entry (not in the spec).
+
+## Phase 6 (part) — Home-screen app, opens full screen ✅ (2026-10-22)
+
+Tyler asked for the phone app to open full screen like a regular app. Done ahead of the rest of Phase 6, since it doesn't need Plaid keys.
+
+**Built**
+- `public/manifest.webmanifest`: name "Personal Finance", short name "Finance", `display: standalone` (no browser bar), start page `/`, portrait, the prototype's background color; icons at 192 and 512, plus a 512 "maskable" one for Android's shaped icons.
+- iPhone tags in `index.html`: `apple-mobile-web-app-capable`, an `apple-touch-icon` (180×180, no transparency), home-screen title "Finance", status bar style, and `theme-color` in the prototype's light and dark background colors.
+- Icons rendered from the app's existing logo (green tile, white chart line) with the line inside Android's safe zone.
+- Content keeps clear of the notch and the home indicator (safe-area padding on top of the prototype's spacing).
+- nginx serves the manifest as `application/manifest+json` (its default types lack it).
+- No service worker on purpose: nothing is cached offline, so the app always shows current numbers and needs a connection.
+
+**Verified**
+- Frontend: lint, typecheck, **43/43 tests**. New `homeScreenApp.test.ts`: the manifest is standalone with the right start page; every icon file exists at its stated size, including the maskable one; `index.html` has the manifest link and iPhone tags; the iPhone icon is 180×180 with no alpha channel. Production build includes the manifest and icons. `make test` passes.
+- `docker compose up --build` + `make smoke`. Served types checked: manifest `application/manifest+json`, PNG icons `image/png`, and the hashed CSS/JS still `text/css` / `application/javascript` with year-long caching after the nginx change.
+- **Chromium's own installability check** (DevTools `Page.getInstallabilityErrors`, normal profile): **no errors**; manifest parsed with no errors as `display: standalone`, `start_url: /`.
+
+**Not verified**
+- On a real phone. Only Tyler can do that, after the Tailscale setup in `docs/hosting.md`. Install from Safari → Share → **Add to Home Screen** (iPhone), or Chrome → ⋮ → **Install app** (Android).
+- **Note for Phase 6:** banks that log in on their own site (OAuth) can lose their way back to a home-screen app on iPhone. Link those banks from a regular browser tab; the home-screen app picks them up after.

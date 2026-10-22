@@ -53,9 +53,11 @@ Useful commands:
 > ⚠️ Use `tailscale serve`, **never `tailscale funnel`**. Funnel publishes the app to the whole internet.
 
 ### 7. Open it on your phone
-Open the address from step 6 in Safari or Chrome. To make it feel like an app:
-- **iPhone:** Share button → **Add to Home Screen**
-- **Android:** ⋮ menu → **Add to Home screen** / **Install app**
+Open the address from step 6 in Safari or Chrome, then install it so it opens full screen like a regular app (no browser bar):
+- **iPhone:** in Safari, Share button → **Add to Home Screen**
+- **Android:** in Chrome, ⋮ menu → **Install app** (or **Add to Home screen**)
+
+Tip: link new banks from a regular browser tab rather than the home-screen app. Banks that sign you in on their own website can lose their way back to a home-screen app on iPhone.
 
 ### 8. Keep the laptop awake (laptop setups only)
 Scheduled syncs and phone access only work while the computer is awake.
